@@ -305,8 +305,9 @@ animations = [{
 size = Vector2(64, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_274te"]
+size = Vector2(20, 120)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_872bd")
 
 [node name="Animations" type="AnimatedSprite2D" parent="."]
@@ -323,9 +324,9 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
 [node name="AtkArea" type="Area2D" parent="."]
+position = Vector2(92, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AtkArea"]
-position = Vector2(83, -4)
+[node name="AtkCol" type="CollisionShape2D" parent="AtkArea"]
 shape = SubResource("RectangleShape2D_274te")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="AtkTimer" type="Timer" parent="."]

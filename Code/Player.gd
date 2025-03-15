@@ -10,7 +10,7 @@ var direction_g = 0
 var attacking = false
 @export var atk_dmg = 10  
 @export var atk_rng = 20   
-@onready var atk_col = $AtkArea/CollisionShape2D 
+@onready var atk_col = $AtkArea/AtkCol
 @onready var animation = $Animations
 
 
@@ -27,11 +27,17 @@ func _physics_process(delta: float) -> void:
 	# Attack Input
 	if Input.is_action_just_pressed("SPACE") and not attacking:
 		attacking = true
-		atk_start.emit() #Emitting signal
-		animation.play("Atk")  # Play attack animation
-		atk_col.disabled = false # Enable collision
-		$AttackTimer.start()
+		atk_start.emit() 
+		animation.play("Atk")  
+		atk_col.disabled = false 
+		$AtkTimer.start()
 
+	elif Input.is_action_just_released('SPACE') and attacking == true:
+		attacking = false
+		atk_col.disabled = true
+		animation.play("Idle")
+		atk_end.emit()
+		
 	#Gravity
 	if not is_on_floor():
 		velocity.y += G.P_GRAVITY
@@ -69,10 +75,11 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, G.P_SPEED)
 
 	move_and_slide()
-func _on_attack_timer_timeout():
+
+func _on_atk_timer_timeout():
 	attacking = false
-	atk_end.emit()# Emitting Signal
-	atk_col.disabled = true  # Disable collision
+	atk_end.emit()
+	atk_col.disabled = true 
 	if not is_zero_approx(velocity.x) and is_on_floor():
 		animation.play("Run")
 	elif is_zero_approx(velocity.x) and is_on_floor():
