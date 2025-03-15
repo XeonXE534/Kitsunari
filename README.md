@@ -1,6 +1,6 @@
-#KITSUNARI README
+KITSUNARI README
 
-#ALL VISUALS ARE NOT FINAL AND ARE JUST PLACEHOLDERS 
+ALL VISUALS ARE NOT FINAL AND ARE JUST PLACEHOLDERS 
 
 KITSUNARI is a game I am making becuse I wanna do smth with my programming skill other than flex on my friends
 
