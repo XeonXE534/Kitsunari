@@ -18,7 +18,7 @@ texture = ExtResource("1_htpsx")
 position = Vector2(120, 71)
 
 [node name="Slime1" parent="." instance=ExtResource("3_46loy")]
-position = Vector2(900, 110)
+position = Vector2(250, 83)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

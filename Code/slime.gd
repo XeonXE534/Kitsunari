@@ -1,50 +1,68 @@
-#SLIME
 extends CharacterBody2D
 
-#vars,consts and exports
-const speed = 200
+# Variables
 var player_position
 var target
-var health = 1
+var direction = 1
 
-@onready var player = get_parent().get_node("Player")
+#@onready var player = get_node("/root/Testlvl/Player")
+@onready var player = get_node("/root/Testlvl/Player")
 @onready var animation = $Animation
 @onready var raycast = $RayCast2D
+@onready var body_area = $BodyArea  # Ensure this is an Area2D node
 
-func _physics_process(delta: float) -> void:
+@export var speed = 200
+@export var health = 20
 
-	#Player tracking
-	player_position = player.position
-	target = (player_position - position).normalized()
+func _ready() -> void:
+	# Check if player node exists
+	  # Adjust this path to match your scene structure
 
-	if not is_on_floor():
-		velocity += get_gravity() * delta  
-
-	if position.distance_to(player_position) > 3:
-		velocity.x = target.x * speed  
-		animation.play("Run")
+	if player:
+		print("Player node found")
+		player.atk_start.connect(_on_player_atk)  # Connect the signal only if player is found
 	else:
-		velocity.x = 0  
-		animation.play("Idle")
-	move_and_slide()
-	
-func take_damage(damage):
+		print("Player node NOT found!")
+
+func _on_player_atk() -> void:
+	# Check if the attack hitbox overlaps
+	var attack_hitbox = player.get_node("AtkArea")  # Adjust this path to match your player's attack hitbox node
+	if body_area.overlaps_area(attack_hitbox):
+		take_damage(10)
+
+	#var connected = player.atk_start.is_connected(_on_player_atk)
+	#print('is connected :', connected)
+	#player.atk_start.connect(_on_player_atk)
+	#animation.animation_finished.connect(_on_animation_animation_finished)
+#
+#func _physics_process(delta: float) -> void:
+	## Player tracking
+	#player_position = player.position
+	#target = (player_position - position).normalized()
+#
+	#if not is_on_floor():
+		#velocity += get_gravity() * delta  
+#
+	#if position.distance_to(player_position) > 3:
+		#velocity.x = target.x * speed  
+		#animation.play("Run")
+#
+	#else:
+		#velocity.x = 0  
+		#animation.play("Idle")
+#
+	#move_and_slide()
+#
+## Corrected take_damage
+func take_damage(damage: int) -> void:
 	health -= damage
 	print("Slime health:", health)
-	#velocity = Vector2.ZERO
-	animation.play('Death')
 
 	if health <= 0:
-		animation.animation_finished.connect(queue_free, CONNECT_ONE_SHOT)
+		velocity = Vector2.ZERO
+		animation.play("Death")  # Play Death animation
 
-func _on_player_atk_start():
-	player.get_node("AtkArea").connect("area_entered", _on_attack_area_entered)
 
-func _on_player_attack_ended():
-	if is_instance_valid(player.get_node("AtkArea")):
-		if player.get_node("AtkArea").is_connected("area_entered", _on_attack_area_entered):
-			player.get_node("AtkArea").disconnect("area_entered", _on_attack_area_entered)
-
-func _on_attack_area_entered(area):
-	if area.name == "AtkArea" and area.get_parent() == player:
-		take_damage(player.atk_dmg)
+#func _on_animation_animation_finished(anim_name: String) -> void:
+	#if anim_name == "Death":
+		#queue_free()

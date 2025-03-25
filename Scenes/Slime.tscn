@@ -9,7 +9,7 @@
 size = Vector2(38, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6a48e"]
-size = Vector2(0, 0)
+size = Vector2(38, 2)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cbifs"]
 atlas = ExtResource("1_1vpon")
@@ -135,6 +135,7 @@ animations = [{
 }]
 
 [node name="Slime" type="CharacterBody2D"]
+floor_constant_speed = true
 script = ExtResource("1_gfgc8")
 
 [node name="BodyArea" type="Area2D" parent="."]
@@ -143,6 +144,7 @@ script = ExtResource("1_gfgc8")
 shape = SubResource("RectangleShape2D_5ijjg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 17)
 shape = SubResource("RectangleShape2D_6a48e")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
@@ -155,3 +157,4 @@ position = Vector2(19, 0)
 scale = Vector2(0.5, 0.5)
 
 [connection signal="body_entered" from="BodyArea" to="." method="_on_body_area_body_entered"]
+[connection signal="animation_finished" from="Animation" to="." method="_on_animation_animation_finished"]
