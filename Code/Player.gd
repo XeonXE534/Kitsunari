@@ -18,6 +18,7 @@ var attacking = false
 
 func _ready() -> void:
 	atk_col.disabled = true
+	add_to_group("player")
 
 func _physics_process(_delta: float) -> void:
 	#Atk
@@ -30,6 +31,8 @@ func _physics_process(_delta: float) -> void:
 	# Attack Input
 	if Input.is_action_just_pressed("SPACE") and not attacking:
 		attacking = true
+		print("---------------------------------")
+		print('`atk_start` emitted from player!')
 		atk_start.emit()
 		animation.play("Atk")  
 		atk_col.disabled = false 
