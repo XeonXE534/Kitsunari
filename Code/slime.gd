@@ -1,46 +1,40 @@
+#SLIME
 extends CharacterBody2D
 
-# Variables
+#Variables
 var player_position
 var target
 var direction = 1
+var is_dead = false
 
 @onready var player = get_parent().get_node('Player')
 @onready var animation = $Animation
 @onready var raycast = $RayCast2D
 @onready var body_area = $BodyArea  
 
-@export var speed = 200
-@export var health = 20
-
 func _ready() -> void:
-	var countexe = OS.get_processor_count()
-	
-	print("-------Debug Process Start---------")
-	print(countexe)
-	print(player)
-	if player:
-		if player.has_signal("atk_start"):
-			player.atk_start.connect(_on_player_atk)
-			print("Connected `atk_start` signal!")
-			print("---------------------------------")
-		else:
-			print("Error: Player does not have `atk_start` signal!")
-			print("---------------------------------")
-	else:
-		print("Player node NOT found!")
-		print("---------------------------------")
+	player_position = player.position
 
-func _on_player_atk() -> void:
-	print("_on_player_atk() run conditions met!")
+func _InRangeToTakeDamage():
+	if position.distance_to(player_position) <= G.P_ATK_RANGE and player.attacking:
+		print('IN RANGE TAKING DAMAGE')
+		_TakeDamage(10)
+
+#damage logic
+func _TakeDamage(damage: int) -> void:
+	G.S_HP -= damage
 	print("---------------------------------")
-	var attack_hitbox = player.get_node("AtkArea")  
-	if body_area.overlaps_area(attack_hitbox):
-		take_damage(10)
+	print("Slime health:", G.S_HP)
+	print("---------------------------------")
 
+	if G.S_HP <= 0 and not is_dead:
+		is_dead = true
+		velocity = Vector2.ZERO
+		animation.play("Death") 
+		queue_free()
 
 func _physics_process(delta: float) -> void:
-	# Player tracking
+	# Player position tracking
 	player_position = player.position
 	target = (player_position - position).normalized()
 
@@ -48,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta  
 
 	if position.distance_to(player_position) > 3:
-		velocity.x = target.x * speed  
+		velocity.x = target.x * G.S_SPEED  
 		animation.play("Run")
 
 	else:
@@ -56,26 +50,4 @@ func _physics_process(delta: float) -> void:
 		animation.play("Idle")
 
 	move_and_slide()
-
- #Corrected take_damage
-func take_damage(damage: int) -> void:
-	OS.crash("CRASH")
-	health -= damage
-	print("Slime health:", health)
-	print("---------------------------------")
-
-	if health <= 0:
-		velocity = Vector2.ZERO
-		animation.play("Death") 
-
-	var connected = player.atk_start.is_connected(_on_player_atk)
-
-	print('is connected :', connected)
-	print("---------------------------------")
-	player.atk_start.connect(_on_player_atk)
-	animation.animation_finished.connect(_on_animation_animation_finished)
-
-
-func _on_animation_animation_finished(anim_name: String) -> void:
-	if anim_name == "Death":
-		queue_free()
+	_InRangeToTakeDamage()

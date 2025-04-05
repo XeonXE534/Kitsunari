@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://c2emuobybg4bw"]
 
-[ext_resource type="Script" path="res://Code/slime.gd" id="1_gfgc8"]
+[ext_resource type="Script" uid="uid://djbo78a5wxxu0" path="res://Code/slime.gd" id="1_gfgc8"]
 [ext_resource type="Texture2D" uid="uid://18xbcjdr1dt5" path="res://Assets/Test-packs/Slime/slime_die.png" id="2_q2d8c"]
 [ext_resource type="Texture2D" uid="uid://bq8oai4nsplwe" path="res://Assets/Test-packs/Slime/slime_idle.png" id="3_ls5mw"]
 [ext_resource type="Texture2D" uid="uid://dh07l4alrpy1m" path="res://Assets/Test-packs/Slime/slime_run.png" id="4_ekjsk"]

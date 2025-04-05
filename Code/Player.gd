@@ -1,27 +1,15 @@
 #PLAYER
 extends CharacterBody2D
 
-#Signals
-signal atk_start
-signal atk_end
-
-#var,consts and exports
+#variables
 var direction_g = 0
 var attacking = false
 
-@export var atk_dmg = 10  
-@export var atk_rng = 20   
-
-@onready var atk_col = $AtkArea/AtkCol
 @onready var animation = $Animations
 
-
-func _ready() -> void:
-	atk_col.disabled = true
-	add_to_group("player")
-
 func _physics_process(_delta: float) -> void:
-	#Atk
+#Atk
+	#Direction check for attack animation
 	if direction_g > 0:  
 		animation.flip_h = false 
 
@@ -29,22 +17,17 @@ func _physics_process(_delta: float) -> void:
 		animation.flip_h = true  
 
 	# Attack Input
-	if Input.is_action_just_pressed("SPACE") and not attacking:
+	if Input.is_action_just_pressed("SPACE") and attacking == false:
 		attacking = true
-		print("---------------------------------")
-		print('`atk_start` emitted from player!')
-		atk_start.emit()
 		animation.play("Atk")  
-		atk_col.disabled = false 
 		$AtkTimer.start()
 
 	elif Input.is_action_just_released('SPACE') and attacking == true:
 		attacking = false
-		atk_col.disabled = true
 		animation.play("Idle")
-		atk_end.emit()
+		$AtkTimer.stop()
 
-	#Gravity
+#Gravity
 	if not is_on_floor():
 		velocity.y += G.P_GRAVITY
 
@@ -54,12 +37,12 @@ func _physics_process(_delta: float) -> void:
 	if is_on_floor():
 		velocity.y = 0
 
-	# Handle jump
+# Handle jump
 	if Input.is_action_just_pressed("W") and is_on_floor():
 		velocity.y = G.P_JUMP_VELOCITY
 		animation.play("Jump")
 
-	# Movement
+# Movement
 	var direction := Input.get_axis("A", "D")
 	if is_zero_approx(velocity.x) and is_on_floor() and attacking == false:
 		animation.play('Idle')
@@ -82,14 +65,3 @@ func _physics_process(_delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, G.P_SPEED)
 
 	move_and_slide()
-
-func _on_atk_timer_timeout():
-	attacking = false
-	atk_end.emit()
-	atk_col.disabled = true 
-
-	if not is_zero_approx(velocity.x) and is_on_floor():
-		animation.play("Run")
-
-	elif is_zero_approx(velocity.x) and is_on_floor():
-		animation.play("Idle")

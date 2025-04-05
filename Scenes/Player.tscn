@@ -1,6 +1,6 @@
-[gd_scene load_steps=48 format=3 uid="uid://dg24s1hlxvv3h"]
+[gd_scene load_steps=47 format=3 uid="uid://dg24s1hlxvv3h"]
 
-[ext_resource type="Script" path="res://Code/Player.gd" id="1_872bd"]
+[ext_resource type="Script" uid="uid://56irkkb22dt5" path="res://Code/Player.gd" id="1_872bd"]
 [ext_resource type="Texture2D" uid="uid://c482g5tnva88h" path="res://Assets/Player/Dude-with-sword-and-chainmail/attack/spritesheet_attack_2x.png" id="2_3xsbe"]
 [ext_resource type="Texture2D" uid="uid://doeqnhvgwx2gw" path="res://Assets/Player/Dude-with-sword-and-chainmail/death/spritesheet_death_2x.png" id="3_icqaj"]
 [ext_resource type="Texture2D" uid="uid://bbljq3xx0bnd5" path="res://Assets/Player/Dude-with-sword-and-chainmail/idle/spritesheet_idle_2x.png" id="4_i5pi5"]
@@ -304,9 +304,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k62jf"]
 size = Vector2(64, 120)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_274te"]
-size = Vector2(20, 120)
-
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_872bd")
 
@@ -322,11 +319,5 @@ shape = SubResource("RectangleShape2D_k62jf")
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
-
-[node name="AtkArea" type="Area2D" parent="."]
-position = Vector2(92, 0)
-
-[node name="AtkCol" type="CollisionShape2D" parent="AtkArea"]
-shape = SubResource("RectangleShape2D_274te")
 
 [node name="AtkTimer" type="Timer" parent="."]
