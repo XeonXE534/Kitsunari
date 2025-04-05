@@ -5,7 +5,7 @@ extends CharacterBody2D
 signal atk_start
 signal atk_end
 
-#vars,consts and exports
+#var,consts and exports
 var direction_g = 0
 var attacking = false
 
