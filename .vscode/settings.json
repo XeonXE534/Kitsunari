@@ -1,0 +1,7 @@
+// .vscode/settings.json
+{
+  "files.associations": {
+    "*.gd": "gdscript"
+  },
+  "godot_tools.editor_path": "E:\Coding\Godot\Godot4\Godot_v4.3-stable_win64.exe"
+}
