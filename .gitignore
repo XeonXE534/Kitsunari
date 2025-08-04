@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm specific files
+.idea/
+*.iml
+*.iws
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test / coverage / reports
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Others
+*.sqlite3
+*.egg-info/
+dist/
+build/
