@@ -64,14 +64,11 @@ kitsunari/
 
 
 Roadmap
+- [ ] Add GUI version for desktop users.
+- [ ] Implement caching for faster repeated queries.
+- [ ] Add watch history and user preferences.
+- [ ] Expand scraper support for additional anime streaming sources.
 
-    Add GUI version for desktop users.
-
-    Implement caching for faster repeated queries.
-
-    Add watch history and user preferences.
-
-    Expand scraper support for additional anime streaming sources.
 
 Contributing
 
