@@ -32,13 +32,13 @@ Install dependencies:
 
     pip install -r requirements.txt
 
-Usage
+## Usage
 
 Run the CLI tool with:
 
 python -m src.kitsunari_cli.main
 
-Requirements
+## Requirements
 
     Python 3.8 or higher
 
@@ -63,14 +63,15 @@ kitsunari/
 ```
 
 
-Roadmap
+## Roadmap
+
 - [ ] Add GUI version for desktop users.
 - [ ] Implement caching for faster repeated queries.
 - [ ] Add watch history and user preferences.
 - [ ] Expand scraper support for additional anime streaming sources.
 
 
-Contributing
+## Contributing
 
 Contributions, issues, and feature requests are welcome.
 Feel free to fork the repo and submit pull requests.
