@@ -47,7 +47,8 @@ Requirements
     A CLI-compatible media player (e.g., mpv, vlc)
 
 Project Structure
-```kitsunari/
+```
+kitsunari/
 ├── src/
 │   ├── kitsunari_cli/
 │   │   ├── cli.py         # CLI interface and logic
@@ -58,7 +59,8 @@ Project Structure
 ├── tests/                 # Unit tests
 ├── requirements.txt       # Python dependencies
 ├── setup.py               # Package configuration
-└── README.md              # Project overview```
+└── README.md              # Project overview
+```
 
 
 Roadmap
