@@ -75,3 +75,7 @@ kitsunari/
 
 Contributions, issues, and feature requests are welcome.
 Feel free to fork the repo and submit pull requests.
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
