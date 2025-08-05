@@ -39,7 +39,8 @@ Run the CLI tool with:
 
 > A CLI-compatible media player (e.g., mpv, vlc)
 
-Project Structure
+## Project Structure
+
 ```
 kitsunari/
 ├── src/
