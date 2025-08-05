@@ -17,20 +17,13 @@ GUI version planned for future release.
 
 ## Installation
 
-1. Clone the repository:
-
    ```bash
    git clone git@github.com:XeonXE534/Kitsunari.git
    cd Kitsunari
-
-    Create and activate a virtual environment (recommended):
-
-python3 -m venv venv
-source venv/bin/activate
-
-Install dependencies:
-
-    pip install -r requirements.txt
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
