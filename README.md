@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI 
+# PROJECT KITSUNARI | キツナーリ
 
 **Terminal-based anime streaming tool for Linux.**  
 A lightweight, efficient command-line interface for searching and playing anime.  
@@ -35,9 +35,9 @@ Install dependencies:
 ## Usage
 
 Run the CLI tool with:
-
-`python -m src.kitsunari_cli.main`
-
+```
+   python -m src.kitsunari_cli.main
+```
 ## Requirements
 
     Python 3.8 or higher
