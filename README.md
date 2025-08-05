@@ -1,6 +1,6 @@
 # PROJECT KITSUNARI 
 
-**Terminal-based (for now, GUI is coming at some point) anime streaming tool.**  
+**Terminal-based anime streaming tool for Linux.**  
 A lightweight, efficient command-line interface for searching and playing anime.  
 GUI version planned for future release.
 
@@ -36,7 +36,7 @@ Install dependencies:
 
 Run the CLI tool with:
 
-python -m src.kitsunari_cli.main
+`python -m src.kitsunari_cli.main`
 
 ## Requirements
 
@@ -62,14 +62,12 @@ kitsunari/
 └── README.md              # Project overview
 ```
 
-
 ## Roadmap
 
 - [ ] Add GUI version for desktop users.
 - [ ] Implement caching for faster repeated queries.
 - [ ] Add watch history and user preferences.
 - [ ] Expand scraper support for additional anime streaming sources.
-
 
 ## Contributing
 
@@ -79,3 +77,7 @@ Feel free to fork the repo and submit pull requests.
 ## License
 
 This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
+
+## Notes
+
+This project was inspired by ani-cli. I did not and do not use any of their code. Any similarites are pure coincidence 
