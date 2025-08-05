@@ -34,7 +34,9 @@ Run the CLI tool with:
 ## Requirements
 
 > Python 3.8 or higher
+
 > fzf installed and available in your system PATH
+
 > A CLI-compatible media player (e.g., mpv, vlc)
 
 Project Structure
