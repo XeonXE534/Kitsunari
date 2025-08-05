@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Project Kitsunari CLI - Main Entry Point
-A command-line anime streaming tool
-"""
 
 import sys
 from .cli import main as cli_main
