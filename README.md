@@ -33,11 +33,9 @@ Run the CLI tool with:
 ```
 ## Requirements
 
-    Python 3.8 or higher
-
-    fzf installed and available in your system PATH
-
-    A CLI-compatible media player (e.g., mpv, vlc)
+> Python 3.8 or higher
+> fzf installed and available in your system PATH
+> A CLI-compatible media player (e.g., mpv, vlc)
 
 Project Structure
 ```
@@ -73,4 +71,4 @@ This project is licensed under the Apache 2.0 License - see the LICENSE file for
 
 ## Notes
 
-This project was inspired by ani-cli. I did not and do not use any of their code. Any similarites are pure coincidence 
+This project was inspired by ani-cli. I did not and do not use any of their code. Any similarites are pure coincidence.
