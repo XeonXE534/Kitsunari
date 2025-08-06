@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-./src/__pycache__
+
 # PyCharm specific files
 .idea/
 *.iml
@@ -31,3 +31,6 @@ htmlcov/
 *.egg-info/
 dist/
 build/
+
+# Extras
+./docs/REF.md
