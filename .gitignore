@@ -33,4 +33,4 @@ dist/
 build/
 
 # Extras
-./docs/REF.md
+NOTES.md

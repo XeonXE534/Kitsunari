@@ -1,77 +1,99 @@
 # PROJECT KITSUNARI | キツナーリ
 
-**Terminal-based anime streaming tool for Linux.**  
-A lightweight, efficient command-line interface for searching and playing anime.  
+**Modern Terminal UI for anime streaming.**  
+A beautiful, interactive TUI application for browsing and watching anime, powered by anipy-cli and Textual.  
 GUI version planned for future release.
 
 ---
 
 ## Features
 
-- Fast, interactive anime search powered by fuzzy matching (`fzf`).
-- Episode selection with multiple video quality options.
-- Integration-ready for popular CLI media players like `mpv` and `vlc`.
-- Clean, modular Python codebase built with maintainability in mind.
+- **Rich Terminal Interface** - Beautiful, interactive TUI with mouse support
+- **Powered by anipy-cli** - Reliable anime sources and streaming backend  
+- **Modern UX** - Browse anime with panels, tabs, and real-time updates
+- **Keyboard & Mouse** - Navigate with arrow keys or click to interact
+- **Episode Management** - Queue episodes, track progress, and seamless playback
+- **Clean Architecture** - Modular design ready for GUI expansion
 
 ---
 
 ## Installation
 
-   ```bash
-   git clone git@github.com:XeonXE534/Kitsunari.git
-   cd Kitsunari
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+```bash
+git clone git@github.com:XeonXE534/Kitsunari.git
+cd Kitsunari
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Usage
 
-Run the CLI tool with:
+Launch the TUI application:
+```bash
+python -m src.kitsunari_tui.main
 ```
-   python -m src.kitsunari_cli.main
-```
+
+### Controls (THESE MAY CHANGE!!!!!)
+- `Ctrl+C` - Exit application
+- `Tab` - Navigate between panels
+- `Enter` - Select item
+- `Esc` - Go back
+- Mouse clicks work throughout the interface
+
 ## Requirements
 
-> Python 3.8 or higher
-
-> fzf installed and available in your system PATH
-
-> A CLI-compatible media player (e.g., mpv, vlc)
+- **Python 3.8+**
+- **anipy-cli** - Handles anime sources and streaming
+- **textual** - Powers the terminal user interface
+- **Media player** - mpv recommended for best experience
 
 ## Project Structure
 
 ```
 kitsunari/
 ├── src/
-│   ├── kitsunari_cli/
-│   │   ├── cli.py         # CLI interface and logic
-│   │   ├── main.py        # Main entry point
-│   │   ├── extractors/    # Site-specific extraction logic
-│   │   ├── scrapers/      # Web scraping modules
-│   │   └── utils/         # Helper utilities
-├── tests/                 # Unit tests
-├── requirements.txt       # Python dependencies
-├── setup.py               # Package configuration
-└── README.md              # Project overview
+│   ├── kitsunari_tui/
+│   │   ├── app.py              # Main Textual application
+│   │   ├── main.py             # Entry point
+│   │   ├── backend/            # anipy-cli integration
+│   │   ├── widgets/            # Custom TUI components  
+│   │   ├── screens/            # Different app views
+│   │   └── player.py           # Media player integration
+│   └── kitsunari_gui/          # Future GUI version
+├── tests/                      # Unit tests
+├── NOTES.md                    # Development reference
+└── requirements.txt            # Dependencies
 ```
+
+## Screenshots
+
+*Coming soon - TUI interface screenshots*
 
 ## Roadmap
 
-- [ ] Add GUI version for desktop users.
-- [ ] Implement caching for faster repeated queries.
-- [ ] Add watch history and user preferences.
-- [ ] Expand scraper support for additional anime streaming sources.
+- [x] ~~CLI-based anime streaming~~ → **TUI Implementation**
+- [ ] Enhanced episode browsing and search
+- [ ] User preferences and watch history  
+- [ ] Multiple anime source support
+- [ ] GUI version with Qt/PySide
+- [ ] Cross-platform distribution
+
+## Why Kitsunari?
+
+While excellent CLI tools like ani-cli and anipy-cli exist, Kitsunari focuses on the **user experience**. It provide a modern, intuitive interface that makes anime discovery and watching more enjoyable, while leveraging proven backends for reliability.
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome.
-Feel free to fork the repo and submit pull requests.
+Contributions welcome! This project uses:
+- **Backend**: anipy-cli for anime sources
+- **Frontend**: Textual for the TUI
+- **Future**: PySide6 for GUI
+
+Feel free to fork and submit pull requests.
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
+This project is licensed under GPL 3.0 - see the LICENSE file for details.
 
-## Notes
-
-This project was inspired by ani-cli. I did not and do not use any of their code. Any similarites are pure coincidence.
+*Built with ❤️ for the anime community*
