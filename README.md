@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI | キツナーリ
+# PROJECT KITSUNARI | キツナーリ v0.1.0
 
 **Modern Terminal UI for anime streaming.**  
 A beautiful, interactive TUI application for browsing and watching anime, powered by anipy-cli and Textual.  
