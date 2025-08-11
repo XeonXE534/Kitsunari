@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI | キツナーリ v1.0.0-alpha
+# PROJECT KITSUNARI | キツナーリ v1.1.0-beta
 
 **Modern Terminal UI for anime streaming.**  
 A beautiful, interactive TUI application for browsing and watching anime, powered by anipy-cli and Textual.  
@@ -31,14 +31,14 @@ pip install -r requirements.txt
 
 Launch the TUI application:
 ```bash
-python -m src.kitsunari_tui.main
+python -m src.kitsunari_tui.app
 ```
 
 ### Controls (THESE MAY CHANGE!!!!!)
-- `Ctrl+C` - Exit application
+- `Ctrl+Q` - Exit application
 - `Tab` - Navigate between panels
 - `Enter` - Select item
-- `Esc` - Go back
+- `b` - Go back
 - Mouse clicks work throughout the interface
 
 ## Requirements
@@ -81,7 +81,7 @@ kitsunari/
 
 ## Why Kitsunari?
 
-While excellent CLI tools like ani-cli and anipy-cli exist, Kitsunari focuses on the **user experience**. It provide a modern, intuitive interface that makes anime discovery and watching more enjoyable, while leveraging proven backends for reliability.
+While excellent CLI tools like ani-cli and anipy-cli exist, Kitsunari focuses on the **user experience**. It provides a modern, intuitive interface that makes anime discovery and watching more enjoyable, while leveraging proven backends for reliability.
 
 ## Contributing
 
