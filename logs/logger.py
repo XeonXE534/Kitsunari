@@ -1,4 +1,4 @@
-# Logger writen by ChatGPT cuz I couldn't be assed to do it myself
+# Logger writen by ChatGPT cuz I couldn't be arsed to do it myself
 import logging
 import os
 
@@ -7,7 +7,6 @@ def get_logger(name: str = "app_logger") -> logging.Logger:
     if not logger.hasHandlers():
         logger.setLevel(logging.DEBUG)
 
-        # Make sure logs/ directory exists
         os.makedirs("logs", exist_ok=True)
         log_path = os.path.join("logs", "logs.log")
 

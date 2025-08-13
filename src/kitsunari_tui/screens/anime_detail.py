@@ -2,13 +2,15 @@ from textual.screen import Screen
 from textual.widgets import Static, Footer
 from textual.app import ComposeResult
 from anipy_api.anime import Anime
+from logs.logger import get_logger
+
+logger = get_logger('anime_detail')
 
 class AnimeDetailScreen(Screen):
-
     BINDINGS = [
-        ('escape', 'go_back', 'Go Back to Search')
+        ('escape', 'go_back', 'Go Back')
     ]
-    CSS_PATH = '../css/anime_detail.css'
+    CSS_PATH = '../css/details_styles.css'
 
     def __init__(self, anime: Anime, synopsis: str):
         super().__init__()
@@ -17,8 +19,8 @@ class AnimeDetailScreen(Screen):
 
     def compose(self) -> ComposeResult:
         info = self.anime.get_info()
-        yield Static(info.name, classes="detail-title")
-        yield Static(self.synopsis, classes="detail-synopsis")
+        yield Static(info.name, classes='detail-title')
+        yield Static(self.synopsis, classes='detail-synopsis')
         yield Footer()
 
     def action_go_back(self):
