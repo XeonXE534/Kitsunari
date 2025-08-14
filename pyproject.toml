@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kitsunari"
+version = "1.0.0"
+description = "Modern Terminal UI for anime streaming"
+authors = [{ name="Xeon", email="you@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "textual>=0.45.0",
+    "anipy-cli",
+    "python-levenshtein==0.26.1",
+    "levenshtein==0.26.1"
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"kitsunari_tui.css" = ["*.css"]
+
+[project.scripts]
+kitsunari = "kitsunari_tui.main:run"

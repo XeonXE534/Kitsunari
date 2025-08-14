@@ -9,7 +9,7 @@ GUI version planned for future release.
 ## Features
 
 * **Rich Terminal Interface** – Interactive TUI with mouse support
-* **Reliable Backend** – Fast-ish threaded anime fetching using `anipy-api`
+* **Reliable Backend** – Fast-ish synchronous anime fetching using `anipy-api`
 * **Modern UX** – Browse anime with panels, tabs, and real-time updates
 * **Keyboard & Mouse Navigation** – Arrow keys, Enter, Tab, and clickable items
 * **Episode Management** – Queue episodes, track progress, seamless playback
@@ -17,32 +17,44 @@ GUI version planned for future release.
 
 ---
 
+## OS support
+**Linux (recommended)** – fully tested  
+**macOS** – might work, not fully tested  
+**Windows** – probably won’t work, use Linux for best experience
+
+---
+
 ## Installation
 
 ```bash
-git clone git@github.com:XeonXE534/Kitsunari.git
+# clone the repo
+git clone https://github.com/XeonXE534/Kitsunari.git
 cd Kitsunari
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+
+# optional but recommended: create a virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+
+# install Kitsunari
+pip install .
 ```
 
 ---
 
 ## Usage
 
-Launch the TUI application:
+Just run:
 
 ```bash
-python -m src.kitsunari_tui.main
+kitsunari
 ```
 
 ## Requirements
 
-* **Python 3.8+**
-* **anipy-api** – Fast, reliable anime sources
-* **textual** – Powers the terminal user interface
-* **Media player** – mpv recommended
+* **Python 3.10+**
+* **Anipy-api** – Fast, reliable anime sources
+* **Textual** – Powers the terminal user interface
+* **Media player** – MPV must be installed and available in your PATH for playback.
 
 ---
 
@@ -50,18 +62,19 @@ python -m src.kitsunari_tui.main
 
 ```
 kitsunari/
+├── docs/                     # Documentation
+├── LICENSE                   # License file
+├── logs/                     # Logging utilities
+├── pyproject.toml            # Build and project config
+├── README.md                 # Readme
 ├── src/
-│   ├── kitsunari_tui/
-│   │   ├── app.py              # Main Textual application
-│   │   ├── main.py             # Entry point
-│   │   ├── backend/            # Anime backend (fast-ish threaded fetch)
-│   │   ├── widgets/            # Custom TUI components  
-│   │   ├── screens/            # Different app views
-│   │   └── player.py           # Media player integration
-│   └── kitsunari_gui/          # Future GUI version
-├── tests/                      # Unit tests
-├── NOTES.md                    # Development notes
-└── requirements.txt            # Dependencies
+│   └──── kitsunari_tui/
+│       ├── backend/          # Synchronous anime backend
+│       ├── css/              # Stylesheets for Textual screens
+│       ├── main.py           # Entry point
+│       └── screens/          # Individual TUI screens/views
+└── tests/                    # Unit tests
+
 ```
 
 ---
@@ -74,7 +87,7 @@ kitsunari/
 
 ## Roadmap
 
-* [x] CLI-based anime streaming → **TUI Implementation**
+* [x] ~~CLI-based anime streaming~~ → **TUI Implementation**
 * [ ] Enhanced episode browsing and search
 * [ ] User preferences and watch history
 * [ ] Multiple anime source support
@@ -85,20 +98,24 @@ kitsunari/
 
 ## Why Kitsunari?
 
-While CLI tools like ani-cli and anipy-cli are great, Kitsunari focuses on **user experience**.
+While CLI tools like Ani-cli and Anipy-cli are great, Kitsunari focuses on **user experience**.
 It provides a modern, intuitive interface for discovering and watching anime while keeping the backend reliable and fast-ish.
+
+---
+
+## Notes
+
+- UI styling is rough – expect wonky layouts, broken CSS and all of that 
+- Some minor bugs may exist (search, playback)  
+- Only Linux fully supported 
+- MPV must be installed and available in your PATH for playback.
 
 ---
 
 ## Contributing
 
 Contributions welcome!
-
-* **Backend:** Custom threaded `anipy-api` integration
-* **Frontend:** Textual for TUI
-* **Future GUI:** PySide6
-
-Fork, tweak, and submit PRs—any improvements are welcome.
+Fork, tweak, and submit PRs, any improvements are welcome.
 
 ---
 
@@ -107,3 +124,7 @@ Fork, tweak, and submit PRs—any improvements are welcome.
 GPL 3.0 – see LICENSE file for details
 
 *Built with ❤️ for the anime community*
+
+## Credits
+Anipy [https://github.com/sdaqo/anipy-cli]
+Textual [https://github.com/textualize/textual/]

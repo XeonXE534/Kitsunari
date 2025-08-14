@@ -9,7 +9,8 @@ from .episode_view import EpisodeDetailScreen
 class SearchScreen(Screen):
     BINDINGS = [
         ('escape', 'go_back', 'Go Back'),
-        ('e', 'episodes', 'Episodes')
+        ('e', 'episodes', 'Episodes'),
+        ('s', 'synopsis', 'Synopsis')
     ]
     CSS_PATH = '../css/search_styles.css'
 
@@ -50,7 +51,7 @@ class SearchScreen(Screen):
             list_item.anime = anime
             list_view.append(list_item)
 
-    def on_list_view_selected(self, event: ListView.Selected) -> None:
+    def action_synopsis(self, event: ListView.Selected) -> None:
         selected = event.item
         anime = getattr(selected, 'anime', None)
         synopsis = getattr(selected, 'synopsis', 'No synopsis available.')
@@ -83,4 +84,3 @@ class SearchScreen(Screen):
             return
 
         self.app.push_screen(EpisodeDetailScreen(anime))
-

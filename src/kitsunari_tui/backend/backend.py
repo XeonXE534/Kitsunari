@@ -1,5 +1,3 @@
-# backend.py
-from threading import Thread
 from pathlib import Path
 from anipy_api.provider.providers.allanime_provider import AllAnimeProvider
 from anipy_api.anime import Anime
@@ -39,27 +37,14 @@ class AnimeBackend:
             return []
 
     # Episodes
-    def get_episodes(self, anime: Anime, preload: int = 10) -> list[int | float]:
+    def get_episodes(self, anime: Anime) -> list[int | float]:
         anime_id = getattr(anime, "id", None) or id(anime)
-
         if anime_id in self._episodes_cache:
-            episodes = self._episodes_cache[anime_id]
-            return episodes[:preload]
+            return self._episodes_cache[anime_id]
 
-        if self._episodes_fetching.get(anime_id):
-            return []
-
-        self._episodes_fetching[anime_id] = True
-
-        def fetch_task():
-            try:
-                episodes = anime.get_episodes(lang=LanguageTypeEnum.SUB)
-                self._episodes_cache[anime_id] = episodes
-            finally:
-                self._episodes_fetching[anime_id] = False
-
-        Thread(target=fetch_task, daemon=True).start()
-        return []
+        episodes = anime.get_episodes(lang=LanguageTypeEnum.SUB)
+        self._episodes_cache[anime_id] = episodes
+        return episodes
 
     # Stream
     def get_episode_stream(self, anime: Anime, episode: int, quality: int) -> ProviderStream | None:
@@ -76,7 +61,7 @@ class AnimeBackend:
     # Play episodes
     def play_episode(self, anime: Anime, episode: int, quality: str | int = 720):
         def on_play(anime: Anime, stream: ProviderStream) -> None:
-            pass  # removed logging
+            pass
 
         try:
             stream = self.get_episode_stream(anime, episode, quality)

@@ -2,9 +2,6 @@ from textual.screen import Screen
 from textual.widgets import Static, Footer
 from textual.app import ComposeResult
 from anipy_api.anime import Anime
-from logs.logger import get_logger
-
-logger = get_logger('anime_detail')
 
 class AnimeDetailScreen(Screen):
     BINDINGS = [

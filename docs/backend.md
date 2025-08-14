@@ -8,7 +8,6 @@
 
 * [Initialization](#initialization)
 * [Methods](#methods)
-
   * [get\_anime\_by\_query](#get_anime_by_query)
   * [get\_episodes](#get_episodes)
   * [get\_episode\_stream](#get_episode_stream)
@@ -26,7 +25,7 @@ backend = AnimeBackend()
 ```
 
 * **Description:**
-  Creates a new backend instance with `AllAnimeProvider` as the default (and only) provider.
+Creates a new backend instance with `AllAnimeProvider` as the default (and only) provider.
 
 ---
 
@@ -36,18 +35,12 @@ backend = AnimeBackend()
 
 * **Description:**
   Search for anime by name.
-
 * **Parameters:**
-
   * `query` – The search string (anime title).
-
 * **Returns:**
-
   * List of `Anime` objects if results are found.
   * Empty list if no results or an error occurs.
-
 * **Notes:**
-
   * Skips search results missing critical fields (`id`, `url`).
   * Fully synchronous; safe to call from a Textual frontend.
 
@@ -57,21 +50,15 @@ results = backend.get_anime_by_query("Blue Archive")
 
 ---
 
-### `get_episodes(anime: Anime, preload: int = 10) -> list[int | float]`
+### `get_episodes(anime: Anime) -> list[int | float]`
 
 * **Description:**
-  Retrieves the episode list for the given anime in `SUB` language.
-  Fetches full episode list in a **background thread** while returning an empty list immediately on first call.
-
+  Retrieves the episode list for the given anime (English subbed). This call is **synchronous** and will block until all episodes are fetched from the provider. Subsequent calls return the cached episodes.
 * **Parameters:**
-
   * `anime` – An instance of `Anime`.
-  * `preload` – Number of episodes to return immediately if cached (default 10).
-
 * **Returns:**
-
-  * List of episode numbers (int or float) from cache if available.
-  * Empty list if the episode list is not yet fetched.
+  * List of episode numbers (int or float) for the anime.
+  * Will raise an exception if fetching fails (currently caught silently in your code).
 
 ```python
 episodes = backend.get_episodes(anime)
@@ -83,15 +70,11 @@ episodes = backend.get_episodes(anime)
 
 * **Description:**
   Fetch a playable stream for a specific episode.
-
 * **Parameters:**
-
   * `anime` – An `Anime` instance.
   * `episode` – Episode number.
   * `quality` – Preferred quality (e.g., 720).
-
 * **Returns:**
-
   * `ProviderStream` object if available.
   * `None` if the stream could not be fetched.
 
@@ -105,19 +88,14 @@ stream = backend.get_episode_stream(anime, 1, 720)
 
 * **Description:**
   Plays the selected episode using MPV.
-
 * **Parameters:**
-
   * `anime` – The `Anime` instance.
   * `episode` – Episode number.
   * `quality` – Preferred quality (`int` or `"worst"`/`"best"`).
-
 * **Behavior:**
-
   * Uses `get_episode_stream` to fetch the video.
   * Initializes an MPV player and plays in fullscreen.
   * Runs synchronously; the function waits until playback finishes.
-
 ```python
 backend.play_episode(anime, 1, 720)
 ```
@@ -127,16 +105,14 @@ backend.play_episode(anime, 1, 720)
 ## Caching & Behavior
 
 * **Episode caching:** Fetched episodes are stored in `_episodes_cache`.
-* **Lazy fetch:** First call to `get_episodes` spawns a background thread to fetch all episodes while returning immediately.
-* **Fetch concurrency:** Only one fetch thread runs per anime at a time; repeated calls return cached results or empty list until fetch finishes.
-* Fully synchronous API, safe for Textual frontends.
-* Optimized for huge anime lists like One Piece without freezing the UI.
+* **Fetch behavior:** `get_episodes` is synchronous and will block until all episodes are fetched from the provider. Subsequent calls return cached episodes.
+* Fully synchronous backend.
 
 ---
 
 ## Notes
 
-* No logging in this version; completely silent backend.
+* No logging in this version
 * Designed to gracefully handle missing or malformed data from the provider.
 * Simple caching reduces repeated API calls but still hits the provider if uncached.
 * Stable, fast-ish, and minimal—won’t crash for massive anime series.
