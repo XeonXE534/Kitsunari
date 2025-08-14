@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "kitsunari"
 version = "1.0.0"
 description = "Modern Terminal UI for anime streaming"
-authors = [{ name="Xeon", email="you@example.com" }]
+authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
 readme = "README.md"
 requires-python = ">=3.10"
 
