@@ -27,7 +27,4 @@ Beta, bleeding edge version of Kitsunari. Sometimes works, sometimes summons dem
 ## Known Issues
 - Results may overlap if you search too fast.  
 - Going past the last page = “Anime not found! :/” spam.  
-- May eat your snacks.  
-
-## TL;DR
-Beta. Works sometimes. Don’t cry if it breaks.
+- May eat your snacks >:3
