@@ -1,4 +1,5 @@
 # AnimeBackend Documentation
+> This document provides an overview for `AnimeBackend v2` 
 
 `AnimeBackend` is a synchronous backend for fetching anime data, episodes, and playable streams using the `anipy_api`. It’s designed to be simple-ish, fast-ish, and fully compatible with a Textual-based frontend.
 
