@@ -1,7 +1,7 @@
 from textual.screen import Screen
 from textual.widgets import ListView, ListItem, Static, Footer
 from textual.app import ComposeResult
-from ..backend.backend import AnimeBackend
+from ..backend.backend_v2 import AnimeBackend
 
 class EpisodeDetailScreen(Screen):
     BINDINGS = [

@@ -109,6 +109,8 @@ It provides a modern, intuitive interface for discovering and watching anime whi
 - Some minor bugs may exist (search, playback)  
 - Only Linux fully supported 
 - MPV must be installed and available in your PATH for playback.
+- This version uses `backend_v2` which is the older but *FAR* more stable backend.
+- Check out the `backend_v3` branch for the latest backend code (NOT RECOMMENDED FOR DAILY USE, UNSTABLE)
 
 ---
 
