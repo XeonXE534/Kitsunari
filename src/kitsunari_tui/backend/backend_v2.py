@@ -9,9 +9,9 @@ from anipy_api.player import get_player
 class AnimeBackend:
     def __init__(self):
         self.provider = AllAnimeProvider()
-        self._cache: dict = {}                # {anime_id: Anime object}
-        self._episodes_cache: dict = {}       # {anime_id: list of episodes}
-        self._episodes_fetching: dict = {}    # {anime_id: bool}
+        self._cache: dict = {}
+        self._episodes_cache: dict = {}
+        self._episodes_fetching: dict = {}
 
     # Anime search
     def get_anime_by_query(self, query: str) -> list[Anime]:
@@ -60,7 +60,7 @@ class AnimeBackend:
             return None
 
     # Play episodes
-    def play_episode(self, anime: Anime, episode: int, quality: str | int = 720):
+    def play_episode(self, anime: Anime, episode: int, quality: int = 720):
         def on_play(anime: Anime, stream: ProviderStream) -> None:
             pass
 
