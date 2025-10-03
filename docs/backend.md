@@ -114,6 +114,8 @@ backend.play_episode(anime, 1, 720)
 ## Notes
 
 * No logging in this version
+* Resolution is dictated by the provider. Most streams are 1080 or higher.
+* Only supports `AllAnimeProvider` currently.
 * Designed to gracefully handle missing or malformed data from the provider.
 * Simple caching reduces repeated API calls but still hits the provider if uncached.
 * Stable, fast-ish, and minimal—won’t crash for massive anime series.
