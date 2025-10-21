@@ -5,10 +5,9 @@ Screen {
 
 .title {
     text-align: center;
-    margin: 1 0;
-    offset: 0 2;
+    offset: 0 1;
     text-style: bold;
-    color: #f38b;
+    color: #FF8400;
 }
 
 .subtitle {
@@ -22,23 +21,24 @@ Screen {
 }
 
 .menu Button {
+    background: #1e1e2e;
     width: 40;
-    border: round #f38ba8;
-    color: #f38ba8;
+    border: round #FF8400;
+    color: #FF8400;
 }
 
 .menu Button:hover {
-    background: #f38ba8;
-    color: #1e1e2e;
+    background: rgba(0, 0, 0, 0.3);
+    color: #FF8400;
 }
 
 .footer-note {
     text-align: center;
-    color: #a6adc8;
+    color: #FF8400;
     padding: 2 0;
 }
 
 Footer {
-    background: #11111b;
-    color: #a6adc8;
+    background: #D16900;
+    color: #FFFFFF;
 }

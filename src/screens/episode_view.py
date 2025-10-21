@@ -17,7 +17,7 @@ class EpisodeDetailScreen(Screen):
         self.episodes = []
 
     def compose(self) -> ComposeResult:
-        yield Static(f"Episodes for: {self.anime.name}", id="title")
+        yield Static(self.anime.name, id="title")
         yield ListView(id="episode_list")
         yield Footer()
 

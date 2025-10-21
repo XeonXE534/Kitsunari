@@ -51,8 +51,19 @@ class SearchScreen(Screen):
             list_item.anime = anime
             list_view.append(list_item)
 
-    def action_synopsis(self, event: ListView.Selected) -> None:
-        selected = event.item
+    def action_synopsis(self):
+        list_view = self.query_one('#search_results', ListView)
+        selected_index = list_view.index
+        if selected_index is None or selected_index < 0:
+            print('[Error] No anime selected.')
+            return
+
+        children = list(list_view.children)
+        if selected_index >= len(children):
+            print('[Error] Selected index out of range.')
+            return
+
+        selected = children[selected_index]
         anime = getattr(selected, 'anime', None)
         synopsis = getattr(selected, 'synopsis', 'No synopsis available.')
 

@@ -16,8 +16,8 @@ class AnimeDetailScreen(Screen):
 
     def compose(self) -> ComposeResult:
         info = self.anime.get_info()
-        yield Static(info.name, classes='detail-title')
-        yield Static(self.synopsis, classes='detail-synopsis')
+        yield Static(info.name, classes='detail_title')
+        yield Static(self.synopsis, classes='detail_synopsis')
         yield Footer()
 
     def action_go_back(self):
