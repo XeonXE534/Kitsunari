@@ -1,6 +1,7 @@
 Screen {
     background: #1e1e2e;
-    color: #FFFFFF;
+    color: #FF8400;
+    border: round #FF8400;
 }
 
 .detail_title {

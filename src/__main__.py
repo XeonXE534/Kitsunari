@@ -4,7 +4,6 @@ from .screens.home import KitsunariHome
 class KitsunariTUI(App):
     def on_mount(self):
         self.push_screen(KitsunariHome())
-        self.palette = "tokyo-night"
 
 app = KitsunariTUI()
 
