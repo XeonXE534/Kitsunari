@@ -1,8 +1,10 @@
 from textual.screen import Screen
 from textual.widgets import Static, Footer, Header, Button
-from textual.containers import Vertical
+from textual.containers import Vertical, Horizontal
 from textual.app import ComposeResult
+from backend.backend_v2 import AnimeBackend
 from .search import SearchScreen
+from .continue_watching import ContinueWatchingScreen
 
 class KitsunariHome(Screen):
     CSS_PATH = "../css/home_styles.css"
@@ -22,6 +24,10 @@ class KitsunariHome(Screen):
         ("t", "settings", "Settings"),
     ]
 
+    def __init__(self, backend: AnimeBackend, **kwargs):
+        super().__init__(**kwargs)
+        self.backend = backend
+
     def compose(self) -> ComposeResult:
         yield Header(show_clock=False)
         yield Static(self.banner, classes="title")
@@ -33,7 +39,7 @@ class KitsunariHome(Screen):
             Button("Quit", id="quit"),
             classes="menu"
         )
-        yield Static("v1.0.5", classes="footer-note")
+        yield Static("v1.1.0", classes="footer-note")
         yield Footer()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -42,8 +48,7 @@ class KitsunariHome(Screen):
             self.app.push_screen(SearchScreen())
 
         elif button_id == "continue":
-            # TODO: Implement Continue Watching screen
-            pass
+            self.app.push_screen(ContinueWatchingScreen(self.backend))
 
         elif button_id == "settings":
             # TODO: Implement Settings screen
@@ -59,8 +64,7 @@ class KitsunariHome(Screen):
         self.app.push_screen(SearchScreen())
 
     def action_continue(self) -> None:
-        # TODO: Implement Continue Watching screen
-        pass
+        self.app.push_screen(ContinueWatchingScreen(self.backend))
 
     def action_settings(self) -> None:
         # TODO: Implement Settings screen

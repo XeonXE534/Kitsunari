@@ -1,9 +1,11 @@
 from textual.app import App
 from .screens.home import KitsunariHome
+from backend.backend_v2 import AnimeBackend
 
 class KitsunariTUI(App):
     def on_mount(self):
-        self.push_screen(KitsunariHome())
+        backend = AnimeBackend()
+        self.push_screen(KitsunariHome(backend))
 
 app = KitsunariTUI()
 
