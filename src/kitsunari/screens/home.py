@@ -2,7 +2,7 @@ from .search import SearchScreen
 from textual.screen import Screen
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from backend.backend_v2 import AnimeBackend
+from ..backend.backend_v2 import AnimeBackend
 from .continue_watching import ContinueWatchingScreen
 from textual.widgets import Static, Footer, Header, Button
 

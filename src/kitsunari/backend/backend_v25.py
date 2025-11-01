@@ -3,7 +3,7 @@ import subprocess
 from threading import Thread
 from typing import Optional, List
 from anipy_api.anime import Anime
-from logs.logger import get_logger
+from ..logs.logger import get_logger
 from .utils_v3 import WatchHistory
 from anipy_cli.config import Config
 from anipy_api.provider import ProviderStream, LanguageTypeEnum
