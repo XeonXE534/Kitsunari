@@ -17,29 +17,17 @@ GUI version planned for future release.
 ---
 
 ## Installation
-
 ```bash
-# clone the repo
+# Clone the repo
 git clone https://github.com/XeonXE534/Kitsunari.git
 cd Kitsunari
 
-# optional but recommended: create a virtual environment
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-
-# install Kitsunari
-pip install .
+# Run the installer
+./install.sh
 ```
 
----
-
-## Usage
-
-Just run:
-
-```bash
-kitsunari
-```
+After installation, you can run Kitsunari anywhere using:
+`kit`
 
 ## Requirements
 
