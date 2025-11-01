@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "Kitsunari"
-version = "1.5.2"
+name = "kitsunari"
+version = "1.5.3"
 description = "Modern Terminal UI for anime streaming"
 authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
 readme = "README.md"
@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 
 dependencies = [
     "textual>=0.45.0",
-    "anipy-cli",
+    "anipy-api",
     "levenshtein==0.26.1"
 ]
 
@@ -29,4 +29,4 @@ where = ["src"]
 "kitsunari.css" = ["*.css"]
 
 [project.scripts]
-kit = "kitsunari.__main__:run"
+kit = "kitsunari.src.__main__:run"
