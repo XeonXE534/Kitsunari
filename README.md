@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI | キツナーリ v1.5.1
+# PROJECT KITSUNARI | キツナーリ v1.5.2
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
@@ -23,7 +23,7 @@ git clone https://github.com/XeonXE534/Kitsunari.git
 cd Kitsunari
 
 # Run the installer
-./install.sh
+bash ./install.sh
 ```
 
 After installation, you can run Kitsunari anywhere using:
