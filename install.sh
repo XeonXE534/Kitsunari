@@ -7,22 +7,45 @@ if command -v python3 &>/dev/null; then
 
 elif command -v python &>/dev/null; then
     PYTHON_CMD=python
+
 else
     echo "Python3 not found."
-    echo "Please install Python3 via your package manager."
-    exit 1
+
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "Please install Python3 via your package manager:"
+        echo "  Debian: sudo apt install python3 python3-venv python3-pip"
+        echo "  Arch: sudo pacman -Syu python python-pip"
+        echo "  Fedora: sudo dnf install python3 python3-venv python3-pip"
+        exit 1
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "Please install Python3 via Homebrew: brew install python"
+        exit 1
+    else
+        echo "Unsupported OS. Install Python3 manually."
+        exit 1
+    fi
 fi
 
 echo "[*] Using $PYTHON_CMD"
 
-$PYTHON_CMD -m pip install --upgrade pip setuptools wheel --user
-$PYTHON_CMD -m pip install --upgrade . --user
+if ! command -v pipx &>/dev/null; then
+    echo "[*] pipx not found, installing..."
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v pacman &>/dev/null; then
+            sudo pacman -S python-pipx
 
-BIN_DIR=$($PYTHON_CMD -m site --user-base)/bin
-mkdir -p "$BIN_DIR"
+        else
+            $PYTHON_CMD -m pip install --user pipx
+            $PYTHON_CMD -m pipx ensurepath
+        fi
 
-ln -sf "$BIN_DIR/kitsunari" "$BIN_DIR/kit"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install pipx
+        pipx ensurepath
+    fi
+fi
 
-echo "[*] Done! Make sure $BIN_DIR is in your PATH:"
-echo '  export PATH="$HOME/.local/bin:$PATH"'
-echo "[*] Now you can run 'kit' from anywhere."
+echo "[*] Installing Kitsunari via pipx..."
+pipx install . --force
+
+echo "[*] Done! You can now run 'kit' from anywhere."
