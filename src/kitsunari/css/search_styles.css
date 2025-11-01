@@ -1,0 +1,29 @@
+Screen {
+    background: #1e1e2e;
+    color: #FF8400;
+    border: round #FF8400;
+}
+
+#search_results {
+    margin: 0 2;
+    margin-bottom: 1;
+    margin-top: 1;
+    background: #1e1e2e;
+    color: #FF8400;
+    border: round #FF8400;
+    overflow: auto;
+}
+
+#search_input {
+    margin: 0 2;
+    margin-top: 1;
+    background: #1e1e2e;
+    color: #FF8400;
+    border: round #FF8400;
+    height: 3;
+}
+
+#synopsis_display {
+    background: #1e1e2e;
+    color: #FF8400;
+}

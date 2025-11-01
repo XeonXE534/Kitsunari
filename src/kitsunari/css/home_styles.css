@@ -1,0 +1,45 @@
+Screen {
+    background: #1e1e2e;
+    color: #FF8400;
+    border: round #FF8400;
+}
+
+.title {
+    text-align: center;
+    offset: 0 1;
+    text-style: bold;
+    color: #FF8400;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a6adc8;
+    offset: 0 3;
+}
+
+.menu {
+    align: center middle;
+}
+
+.menu Button {
+    background: #1e1e2e;
+    width: 40;
+    border: round #FF8400;
+    color: #FF8400;
+}
+
+.menu Button:hover {
+    background: rgba(0, 0, 0, 0.3);
+    color: #FF8400;
+}
+
+.footer-note {
+    text-align: center;
+    color: #FF8400;
+    padding: 2 0;
+}
+
+Footer {
+    background: #D16900;
+    color: #FFFFFF;
+}

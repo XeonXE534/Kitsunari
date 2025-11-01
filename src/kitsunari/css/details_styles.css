@@ -1,0 +1,18 @@
+Screen {
+    background: #1e1e2e;
+    color: #FF8400;
+    border: round #FF8400;
+}
+
+.detail_title {
+    text-align: center;
+    text-style: bold;
+    color: #FF8400;
+}
+
+.detail_synopsis{
+    margin: 5 2;
+    background: #1e1e2e;
+    border: round #FF8400;
+    height: auto;
+}
