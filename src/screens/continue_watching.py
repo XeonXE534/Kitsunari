@@ -1,9 +1,8 @@
 from textual.screen import Screen
-from textual.widgets import Static, Footer, Header, Button
-from textual.containers import Vertical
 from textual.app import ComposeResult
+from textual.containers import Vertical
 from backend.backend_v2 import AnimeBackend
-
+from textual.widgets import Static, Footer, Header, Button
 
 class ContinueWatchingScreen(Screen):
     CSS_PATH = "../css/home_styles.css"

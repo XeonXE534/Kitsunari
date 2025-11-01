@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI | キツナーリ v1.1.0--dev
+# PROJECT KITSUNARI | キツナーリ v1.2.0--dev
 
 ## Test branch
 

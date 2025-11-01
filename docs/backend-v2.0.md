@@ -1,19 +1,7 @@
-# AnimeBackend Documentation
-> This document provides an overview for `AnimeBackend v2` 
+# AnimeBackend v2.0 Documentation
+> This document provides an overview for `AnimeBackend v2`
 
 `AnimeBackend` is a synchronous backend for fetching anime data, episodes, and playable streams using the `anipy_api`. It’s designed to be simple-ish, fast-ish, and fully compatible with a Textual-based frontend.
-
----
-
-## Table of Contents
-
-* [Initialization](#initialization)
-* [Methods](#methods)
-  * [get\_anime\_by\_query](#get_anime_by_query)
-  * [get\_episodes](#get_episodes)
-  * [get\_episode\_stream](#get_episode_stream)
-  * [play\_episode](#play_episode)
-* [Caching & Behavior](#caching--behavior)
 
 ---
 
@@ -118,5 +106,5 @@ backend.play_episode(anime, 1, 720)
 * Only supports `AllAnimeProvider` currently.
 * Designed to gracefully handle missing or malformed data from the provider.
 * Simple caching reduces repeated API calls but still hits the provider if uncached.
-* Stable, fast-ish, and minimal—won’t crash for massive anime series.
+* Stable, fast-ish and won’t crash for massive anime series.
 * Honestly, it’s a bit of a Frankenstein backend, but it works 👍
