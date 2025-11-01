@@ -21,7 +21,7 @@ class KitsunariHome(Screen):
         ("escape", "quit_app", "Quit"),
         ("s", "search", "Search Anime"),
         ("c", "continue", "Continue Watching"),
-        ("t", "settings", "Settings"),
+        #("t", "settings", "Settings"),
     ]
 
     def __init__(self, backend: AnimeBackend, **kwargs):
@@ -35,11 +35,11 @@ class KitsunariHome(Screen):
         yield Vertical(
             Button("Search Anime", id="search"),
             Button("Continue Watching", id="continue"),
-            Button("Settings", id="settings"),
+            #Button("Settings", id="settings"),
             Button("Quit", id="quit"),
             classes="menu"
         )
-        yield Static("v1.1.0", classes="footer-note")
+        yield Static("v1.5.1", classes="footer-note")
         yield Footer()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -50,9 +50,9 @@ class KitsunariHome(Screen):
         elif button_id == "continue":
             self.app.push_screen(ContinueWatchingScreen(self.backend))
 
-        elif button_id == "settings":
+        #elif button_id == "settings":
             # TODO: Implement Settings screen
-            pass
+        #    pass
 
         elif button_id == "quit":
             self.app.exit()
@@ -66,6 +66,6 @@ class KitsunariHome(Screen):
     def action_continue(self) -> None:
         self.app.push_screen(ContinueWatchingScreen(self.backend))
 
-    def action_settings(self) -> None:
+    #def action_settings(self) -> None:
         # TODO: Implement Settings screen
-        pass
+    #    pass
