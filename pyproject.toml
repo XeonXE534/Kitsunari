@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitsunari"
-version = "1.5.3"
+version = "2.0.0"
 description = "Modern Terminal UI for anime streaming"
 authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
 readme = "README.md"
@@ -24,9 +24,10 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["kitsunari*"]
 
 [tool.setuptools.package-data]
-"kitsunari.css" = ["*.css"]
+kitsunari = ["css/*.css"]
 
 [project.scripts]
-kit = "kitsunari.src.__main__:run"
+kit = "kitsunari.__main__:run"
