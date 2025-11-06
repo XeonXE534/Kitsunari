@@ -1,4 +1,5 @@
-# PROJECT IBUKI | 伊吹 v2.0.1
+![Project Ibuki Logo](images/Ibuki.png)
+> v2.0.1
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.

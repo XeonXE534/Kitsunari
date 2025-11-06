@@ -6,7 +6,12 @@ CYAN="\033[0;36m"
 RED="\033[0;31m"
 RESET="\033[0m"
 
-echo -e "${CYAN}"
+if [[ -n "$KITTY_WINDOW_ID" && -f "images/Ibuki.png" ]]; then
+    echo -e "${GREEN}[*] Detected Kitty terminal, displaying logo...${RESET}"
+    kitty +kitten icat images/Ibuki.png
+    echo ""
+else
+    echo -e "${CYAN}"
 cat <<'EOF'
 ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗    ██╗██████╗ ██╗   ██╗██╗  ██╗██╗
 ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝    ██║██╔══██╗██║   ██║██║ ██╔╝██║
@@ -15,23 +20,16 @@ cat <<'EOF'
 ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║       ██║██████╔╝╚██████╔╝██║  ██╗██║
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝       ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝
 EOF
-echo -e "${RESET}"
-echo -e "${CYAN}                         Project Ibuki Installer${RESET}"
-echo ""
-
-if [[ -n "$KITTY_WINDOW_ID" && -f "images/Ibuki.png" ]]; then
-    echo -e "${GREEN}[*] Detected Kitty terminal, displaying logo...${RESET}"
-    kitty +kitten icat images/ibuki.png
+    echo -e "${RESET}"
+    echo -e "${CYAN}                         Project Ibuki Installer${RESET}"
     echo ""
 fi
 
 PYTHON_CMD=""
 if command -v python3 &>/dev/null; then
     PYTHON_CMD=python3
-
 elif command -v python &>/dev/null; then
     PYTHON_CMD=python
-
 else
     echo -e "${RED}[!] Python3 not found.${RESET}"
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -51,12 +49,13 @@ else
 fi
 
 echo -e "${GREEN}[*] Using $PYTHON_CMD${RESET}"
+echo -e "${CYAN}[*] Python version:$(${PYTHON_CMD} --version)${RESET}"
 
 if ! command -v pipx &>/dev/null; then
     echo -e "${CYAN}[*] pipx not found, installing...${RESET}"
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         if command -v pacman &>/dev/null; then
-            sudo pacman -S python-pipx
+            sudo pacman -S --needed python-pipx
         else
             $PYTHON_CMD -m pip install --user pipx
             $PYTHON_CMD -m pipx ensurepath
@@ -68,6 +67,11 @@ if ! command -v pipx &>/dev/null; then
 fi
 
 echo -e "${CYAN}[*] Installing Ibuki via pipx...${RESET}"
-pipx install . --force
+if ! pipx install . --force; then
+    echo -e "${RED}[!] Installation failed.${RESET}"
+    exit 1
+fi
 
+echo ""
 echo -e "${GREEN}Done! You can now run 'ibuki' from anywhere.${RESET}"
+echo ""
