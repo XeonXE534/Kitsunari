@@ -1,4 +1,4 @@
-# PROJECT KITSUNARI | キツナーリ v2.0.0
+# PROJECT IBUKI | 伊吹 v2.0.1
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
@@ -19,15 +19,15 @@ GUI version planned for future release.
 ## Installation
 ```bash
 # Clone the repo
-git clone https://github.com/XeonXE534/Kitsunari.git
-cd Kitsunari
+git clone https://github.com/XeonXE534/Project-Ibuki.git
+cd Project-Ibuki
 
 # Run the installer
 bash ./install.sh
 ```
 
-After installation, you can run Kitsunari anywhere using:
-`kit`
+After installation, you can run Project-Ibuki anywhere using:
+`ibuki`
 
 ## Requirements
 

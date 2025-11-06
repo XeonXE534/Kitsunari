@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "kitsunari"
-version = "2.0.0"
+name = "Project-Ibuki"
+version = "2.0.1"
 description = "Modern Terminal UI for anime streaming"
 authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
 readme = "README.md"
@@ -24,10 +24,10 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["kitsunari*"]
+include = ["ibuki*"]
 
 [tool.setuptools.package-data]
-kitsunari = ["css/*.css"]
+ibuki = ["css/*.css"]
 
 [project.scripts]
-kit = "kitsunari.__main__:run"
+ibuki = "ibuki.__main__:run"
