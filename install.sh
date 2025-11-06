@@ -7,7 +7,6 @@ RED="\033[0;31m"
 RESET="\033[0m"
 
 if [[ -n "$KITTY_WINDOW_ID" && -f "images/Ibuki.png" ]]; then
-    echo -e "${GREEN}[*] Detected Kitty terminal, displaying logo...${RESET}"
     kitty +kitten icat images/Ibuki.png
     echo ""
 else

@@ -1,5 +1,5 @@
 ![Project Ibuki Logo](images/Ibuki.png)
-## > v2.0.0
+## > v2.1.1
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
@@ -61,7 +61,7 @@ After installation, you can run Project-Ibuki anywhere using:
 ## Notes
 
 - Some minor bugs may exist (search, playback)  
-- Continue Watching is broken as of v1.5.0
+- Continue Watching is broken as of v2.x.x
 - Only Linux fully supported 
 - MPV must be installed and available in your PATH for playback.
 - This version uses `backend_v2.5` which is the stable backend.

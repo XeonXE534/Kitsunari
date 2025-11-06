@@ -6,15 +6,15 @@ from ..backend.backend_v2 import AnimeBackend
 from .continue_watching import ContinueWatchingScreen
 from textual.widgets import Static, Footer, Header, Button
 
-class KitsunariHome(Screen):
+class IbukiHome(Screen):
     CSS_PATH = "../css/home_styles.css"
     banner = """
-██╗██████╗ ██╗   ██╗██╗  ██╗██╗    ██╗     ██████╗ 
-██║██╔══██╗██║   ██║██║ ██╔╝██║    ╚██╗ ██╗╚════██╗
-██║██████╔╝██║   ██║█████╔╝ ██║     ╚██╗╚═╝ █████╔╝
-██║██╔══██╗██║   ██║██╔═██╗ ██║     ██╔╝██╗ ╚═══██╗
-██║██████╔╝╚██████╔╝██║  ██╗██║    ██╔╝ ╚═╝██████╔╝
-╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝    ╚═╝     ╚═════╝ 
+██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗    ██╗██████╗ ██╗   ██╗██╗  ██╗██╗
+██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝    ██║██╔══██╗██║   ██║██║ ██╔╝██║
+██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║       ██║██████╔╝██║   ██║█████╔╝ ██║
+██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║       ██║██╔══██╗██║   ██║██╔═██╗ ██║
+██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║       ██║██████╔╝╚██████╔╝██║  ██╗██║
+╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝       ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝
 """
 
     BINDINGS = [
@@ -39,7 +39,7 @@ class KitsunariHome(Screen):
             Button("Quit", id="quit"),
             classes="menu"
         )
-        yield Static("v1.5.1", classes="footer-note")
+        yield Static("v2.1.1", classes="footer-note")
         yield Footer()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:

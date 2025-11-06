@@ -1,20 +1,20 @@
 Screen {
     background: #1e1e2e;
-    color: #FF8400;
-    border: round #FF8400;
+    color: #F9F5A1;
+    border: round #F9F5A1;
 }
 
 #title {
     text-align: center;
     text-style: bold;
-    color: #FF8400;
+    color: #F9F5A1;
 }
 
 #episode_list {
     margin: 5 2;
     background: #1e1e2e;
-    color: #FF8400;
-    border: round #FF8400;
+    color: #F9F5A1;
+    border: round #F9F5A1;
     height: auto;
     overflow: auto;
 }

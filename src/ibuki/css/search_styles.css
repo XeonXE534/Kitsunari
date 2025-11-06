@@ -1,7 +1,7 @@
 Screen {
     background: #1e1e2e;
-    color: #FF8400;
-    border: round #FF8400;
+    color: #F9F5A1;
+    border: round #F9F5A1;
 }
 
 #search_results {
@@ -9,8 +9,8 @@ Screen {
     margin-bottom: 1;
     margin-top: 1;
     background: #1e1e2e;
-    color: #FF8400;
-    border: round #FF8400;
+    color: #F9F5A1;
+    border: round #F9F5A1;
     overflow: auto;
 }
 
@@ -18,12 +18,12 @@ Screen {
     margin: 0 2;
     margin-top: 1;
     background: #1e1e2e;
-    color: #FF8400;
-    border: round #FF8400;
+    color: #F9F5A1;
+    border: round #F9F5A1;
     height: 3;
 }
 
 #synopsis_display {
     background: #1e1e2e;
-    color: #FF8400;
+    color: #F9F5A1;
 }

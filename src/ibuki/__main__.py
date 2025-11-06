@@ -1,14 +1,14 @@
 from textual.app import App
-from .screens.home import KitsunariHome
+from .screens.home import IbukiHome
 from .backend.backend_v2 import AnimeBackend
 
-class KitsunariTUI(App):
+class Ibuki(App):
     def on_mount(self):
         backend = AnimeBackend()
-        self.push_screen(KitsunariHome(backend))
+        self.push_screen(IbukiHome(backend))
 
 def run():
-    app = KitsunariTUI()
+    app = Ibuki()
     app.run()
 
 if __name__ == "__main__":
