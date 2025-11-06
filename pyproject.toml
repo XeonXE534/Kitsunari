@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Project-Ibuki"
-version = "2.0.1"
+version = "2.1.0"
 description = "Modern Terminal UI for anime streaming"
 authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
 readme = "README.md"
@@ -13,6 +13,7 @@ requires-python = ">=3.10"
 dependencies = [
     "textual>=0.45.0",
     "anipy-api",
+    "anipy-cli",
     "levenshtein==0.26.1"
 ]
 
