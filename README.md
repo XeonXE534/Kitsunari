@@ -43,6 +43,7 @@ After installation, you can run Project-Ibuki anywhere using:
 
 ![Home screen](images/home.png)
 ![Search screen](images/search.png)
+![Anime Details screen](images/synopsis.png)
 ![Episodes screen](images/ep.png)
 
 ---
