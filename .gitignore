@@ -34,3 +34,4 @@ build/
 
 # Extras
 logs.log
+progress.json
