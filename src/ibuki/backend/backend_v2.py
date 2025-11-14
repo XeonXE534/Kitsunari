@@ -11,7 +11,7 @@ from .mpv_player import MPVPlayer
 
 class AnimeBackend:
     def __init__(self):
-        self.logger = get_logger("AnimeBackend")
+        self.logger = get_logger("AnimeBackend--TEST")
         self.provider = AllAnimeProvider()
         self.player = MPVPlayer()
         self.watch_history = WatchHistory()
