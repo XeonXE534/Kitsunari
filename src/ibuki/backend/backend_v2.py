@@ -4,7 +4,7 @@ from anipy_api.player import get_player
 from anipy_api.provider import LanguageTypeEnum, ProviderStream
 from anipy_api.provider.providers.allanime_provider import AllAnimeProvider
 
-# backend v2
+# Animebackend v2
 
 class AnimeBackend:
     def __init__(self):
