@@ -1,4 +1,4 @@
- <img aling="left" src="images/halo.png" alt="logo" width="450" />
+ <img aling="right" src="images/halo.png" alt="logo" width="450" />
 
 ## v2.1.1
 
