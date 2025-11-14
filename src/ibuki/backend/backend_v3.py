@@ -13,7 +13,7 @@ from anipy_api.provider.providers.allanime_provider import AllAnimeProvider
 
 class AnimeBackend:
     def __init__(self):
-        self.logger = get_logger("AnimeBackend")
+        self.logger = get_logger("AnimeBackend--TEST")
         self.provider = AllAnimeProvider()
         self.cache = {}
         self.episodes_cache = {}
