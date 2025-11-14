@@ -1,8 +1,8 @@
 from .mpv_player import MPVPlayer
 from typing import Optional, List
 from anipy_api.anime import Anime
-from ..logs.logger import get_logger
 from .utils_v3 import WatchHistory
+from ..logs.logger import get_logger
 from anipy_api.provider import ProviderStream, LanguageTypeEnum
 from anipy_api.provider.providers.allanime_provider import AllAnimeProvider
 
@@ -22,7 +22,7 @@ class AnimeBackend:
         self.current_episode: Optional[int] = None
         self.current_duration: Optional[int] = None
 
-        self.logger.debug("AnimeBackend ready.")
+        self.logger.debug("AnimeBackend ready :3")
 
     @staticmethod
     def get_referrer_for_url(url: str) -> str:
@@ -33,7 +33,7 @@ class AnimeBackend:
             return "https://allanime.day"
 
         elif "sunshinerays" in url:
-            return "https://allanime.to"
+            return "https://allmanga.to"
 
         else:
             return "https://allanime.day"
@@ -136,6 +136,7 @@ class AnimeBackend:
 
         try:
             episodes = anime.get_episodes(lang=LanguageTypeEnum.SUB)
+
         except Exception as e:
             self.logger.exception("Error fetching episodes: " + str(e))
             return []
@@ -144,13 +145,20 @@ class AnimeBackend:
         return episodes
 
     def play_episode(self, anime: Anime, episode: int, stream: ProviderStream, start_time: int = 0):
+        """
+        Play a specific episode of an anime using MPVPlayer.
+        Tracks progress and updates watch history on exit.
+        """
         url = stream.url
-        referrer = getattr(stream, 'referrer', self.get_referrer_for_url(url))
-        extra_args = [f"--referrer={referrer}"]
         anime_id = getattr(anime, "identifier", str(id(anime)))
         anime_name = getattr(anime, "name", "Unknown")
         self.current_anime = anime
         self.current_episode = episode
+
+        referrer = getattr(stream, 'referrer', None) or self.get_referrer_for_url(url)
+        extra_args = [f"--referrer={referrer}"]
+
+        self.logger.info(f"Playing {anime_name} EP{episode} with referrer: {referrer}")
 
         def on_mpv_exit():
             self.logger.info(f"MPV closed, saving history for {anime_name} EP{episode}")

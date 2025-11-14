@@ -6,11 +6,10 @@ import subprocess
 from pathlib import Path
 from ..logs.logger import get_logger
 
-
 # MPVControl v2
 
 class MPVPlayer:
-    def __init__(self, sock_path="/tmp/kitsunari-mpv.sock"):
+    def __init__(self, sock_path="/tmp/ibuki-mpv.sock"):
         self.logger = get_logger("MPVControl")
         self.sock_path = sock_path
         self.process = None
@@ -46,6 +45,7 @@ class MPVPlayer:
                   "--force-window=immediate",
                   "--no-terminal",
                   "--idle=no",
+                  "-fs"
                   "--keep-open=no",
               ] + extra_args
 
