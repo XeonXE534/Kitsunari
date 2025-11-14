@@ -1,4 +1,4 @@
- <img align="middle" src="images/halo.png" alt="logo" width="450" />
+ <img align="left" src="images/halo.png" alt="logo" width="450" />
 
 ## v2.1.1
 
