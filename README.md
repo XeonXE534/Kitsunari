@@ -1,8 +1,6 @@
-<p>
-  <img src="images/halo.png" alt="logo" width="450" style="vertical-align:middle;">
-  <span style="font-size:30px;">v2.1.1</span>
-</p>
+ <img aling="left" src="images/halo.png" alt="logo" width="450" />
 
+## v2.1.1
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
