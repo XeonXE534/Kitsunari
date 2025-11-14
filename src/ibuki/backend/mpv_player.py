@@ -7,7 +7,7 @@ from pathlib import Path
 from ..logs.logger import get_logger
 
 
-# MPVControl v2 - Now with actual duration tracking that doesn't suck
+# MPVControl v2
 
 class MPVPlayer:
     def __init__(self, sock_path="/tmp/kitsunari-mpv.sock"):
@@ -65,7 +65,6 @@ class MPVPlayer:
         self._current_position = None
         self._recv_buffer = ""
 
-        # Check if process dies immediately
         time.sleep(0.5)
         if self.process.poll() is not None:
             stdout, stderr = self.process.communicate()
@@ -75,7 +74,6 @@ class MPVPlayer:
             self.running = False
             return
 
-        # Wait for socket to be created
         connected = False
         for attempt in range(50):
             if Path(self.sock_path).exists():
@@ -90,6 +88,7 @@ class MPVPlayer:
                     if self.socket:
                         try:
                             self.socket.close()
+
                         except:
                             pass
                         self.socket = None
@@ -122,7 +121,6 @@ class MPVPlayer:
 
                     self._recv_buffer += data.decode("utf-8")
 
-                    # Process complete messages
                     while "\n" in self._recv_buffer:
                         line, self._recv_buffer = self._recv_buffer.split("\n", 1)
                         if not line.strip():
@@ -133,15 +131,14 @@ class MPVPlayer:
                         except json.JSONDecodeError:
                             continue
 
-                        # Handle property responses
                         if msg.get("error") == "success" and "data" in msg:
                             request_id = msg.get("request_id", 0)
                             if request_id == 1:  # time-pos
                                 self._current_position = msg["data"]
+
                             elif request_id == 2:  # duration
                                 self._current_duration = msg["data"]
 
-                        # Handle events
                         event = msg.get("event")
                         if event == "end-file":
                             self.running = False
@@ -168,6 +165,7 @@ class MPVPlayer:
         try:
             payload = json.dumps({"command": [command] + args, "request_id": request_id})
             self.socket.send(payload.encode("utf-8") + b"\n")
+
         except Exception as e:
             self.logger.error(f"Failed to send command to MPV: {e} :/")
 
@@ -180,13 +178,12 @@ class MPVPlayer:
             self.send("get_property", ["time-pos"], request_id=1)
             self.send("get_property", ["duration"], request_id=2)
 
-            # Give it a moment to respond
             time.sleep(0.1)
 
-            return (self._current_position, self._current_duration)
+            return self._current_position, self._current_duration
         except Exception as e:
             self.logger.error(f"Failed to get playback state: {e} :/")
-            return (None, None)
+            return None, None
 
     def start_progress_tracker(self, callback, interval=10):
         """
@@ -201,8 +198,8 @@ class MPVPlayer:
 
                     if position is not None and duration is not None:
                         callback(int(position), int(duration))
+
                     elif position is not None:
-                        # Fallback if duration isn't available yet
                         self.logger.debug("Duration not available yet, using estimated")
                         callback(int(position), int(position) + 300)
 
@@ -226,11 +223,13 @@ class MPVPlayer:
         if self.process:
             try:
                 self.process.terminate()
+
             except Exception as e:
                 self.logger.error(f"Failed to terminate MPV process: {e} :/")
         if self.socket:
             try:
                 self.socket.close()
+
             except:
                 pass
         self._cleanup_socket()
