@@ -27,7 +27,7 @@ class AnimeBackend:
         self.mpv_process: Optional[subprocess.Popen] = None
         self._stderr_thread: Optional[Thread] = None
 
-        self.logger.debug("AnimeBackend ready.")
+        self.logger.debug("AnimeBackend--TEST ready.")
 
     @staticmethod
     def get_referrer_for_url(url: str) -> str:
