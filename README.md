@@ -1,4 +1,4 @@
-![Project Ibuki Logo](images/Ibuki.png)
+<img src="images/halo.png" alt="logo" width="200">
 ## v2.1.1
 
 **Modern Terminal UI for anime streaming**
