@@ -4,10 +4,37 @@ set -e
 GREEN="\033[0;32m"
 CYAN="\033[0;36m"
 RED="\033[0;31m"
+YELLOW="\033[0;33m"
 RESET="\033[0m"
 
-if [[ -n "$KITTY_WINDOW_ID" && -f "images/Ibuki.png" ]]; then
-    kitty +kitten icat images/Ibuki.png
+info()    { echo -e "${CYAN}[*] $1${RESET}"; }
+success() { echo -e "${GREEN}[+] $1${RESET}"; }
+warn()    { echo -e "${YELLOW}[!] $1${RESET}"; }
+error()   { echo -e "${RED}[!] $1${RESET}"; }
+
+spinner() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='|/-\'
+    while ps -p $pid &>/dev/null; do
+        for i in $(seq 0 3); do
+            printf "\r[%c] $2" "${spinstr:i:1}"
+            sleep $delay
+        done
+    done
+    printf "\r"
+}
+
+HARD_RESET=false
+for arg in "$@"; do
+    if [[ "$arg" == "--hard-reset" ]]; then
+        HARD_RESET=true
+        break
+    fi
+done
+
+if [[ -n "$KITTY_WINDOW_ID" && -f "images/halo.png" ]]; then
+    kitty +kitten icat images/halo.png
     echo ""
 else
     echo -e "${CYAN}"
@@ -24,53 +51,54 @@ EOF
     echo ""
 fi
 
-PYTHON_CMD=""
 if command -v python3 &>/dev/null; then
     PYTHON_CMD=python3
 elif command -v python &>/dev/null; then
     PYTHON_CMD=python
 else
-    echo -e "${RED}[!] Python3 not found.${RESET}"
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "Install Python3 via your package manager:"
-        echo "  Debian: sudo apt install python3 python3-venv python3-pip"
-        echo "  Arch:   sudo pacman -Syu python python-pip"
-        echo "  Fedora: sudo dnf install python3 python3-venv python3-pip"
-        exit 1
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "Install Python3 via Homebrew:"
-        echo "  brew install python"
-        exit 1
-    else
-        echo "Unsupported OS. Install Python3 manually."
-        exit 1
-    fi
+    error "Python3 not found!"
+    exit 1
 fi
-
-echo -e "${GREEN}[*] Using $PYTHON_CMD${RESET}"
-echo -e "${CYAN}[*] Python version:$(${PYTHON_CMD} --version)${RESET}"
+info "Using Python: $($PYTHON_CMD --version 2>&1)"
 
 if ! command -v pipx &>/dev/null; then
-    echo -e "${CYAN}[*] pipx not found, installing...${RESET}"
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        if command -v pacman &>/dev/null; then
-            sudo pacman -S --needed python-pipx
-        else
-            $PYTHON_CMD -m pip install --user pipx
-            $PYTHON_CMD -m pipx ensurepath
-        fi
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install pipx
-        pipx ensurepath
+    info "pipx not found, installing..."
+    $PYTHON_CMD -m pip install --user pipx
+    $PYTHON_CMD -m pipx ensurepath
+fi
+
+info "Upgrading pipx..."
+pipx upgrade pipx >/dev/null 2>&1 & spinner $! "Upgrading pipx..."
+
+if [[ -d .git ]]; then
+    if [[ -n $(git status --porcelain) ]]; then
+        warn "You have uncommitted changes in the repo. Upgrading may overwrite them."
     fi
 fi
 
-echo -e "${CYAN}[*] Installing Ibuki via pipx...${RESET}"
-if ! pipx install . --force; then
-    echo -e "${RED}[!] Installation failed.${RESET}"
-    exit 1
+if $HARD_RESET; then
+    if pipx list | grep -q 'ibuki'; then
+        read -p "This will uninstall and reinstall Ibuki. Continue? [y/N]: " yn
+        [[ "$yn" =~ ^[Yy]$ ]] || exit 0
+        info "Removing existing Ibuki..."
+        pipx uninstall ibuki >/dev/null 2>&1 & spinner $! "Removing Ibuki..."
+    fi
+    info "Installing Ibuki fresh..."
+    pipx install . --force >/dev/null 2>&1 & spinner $! "Installing Ibuki..."
+    success "Ibuki installed!"
+else
+    # Auto-detect
+    if pipx list | grep -q 'ibuki'; then
+        info "Ibuki detected, upgrading..."
+        pipx upgrade ibuki >/dev/null 2>&1 & spinner $! "Upgrading Ibuki..."
+        success "Ibuki upgraded!"
+    else
+        info "Installing Ibuki..."
+        pipx install . --force >/dev/null 2>&1 & spinner $! "Installing Ibuki..."
+        success "Ibuki installed!"
+    fi
 fi
 
 echo ""
-echo -e "${GREEN}Done! You can now run 'ibuki' from anywhere.${RESET}"
+success "You can now run 'ibuki' from anywhere."
 echo ""

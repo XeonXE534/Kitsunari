@@ -21,11 +21,9 @@ GUI version planned for future release.
 
 ## Installation
 ```bash
-# Clone the repo
 git clone https://github.com/XeonXE534/Project-Ibuki.git
 cd Project-Ibuki
 
-# Run the installer
 bash ./install.sh
 ```
 
@@ -89,6 +87,8 @@ GPL 3.0 – see LICENSE file for details
 - UI: [Textual](https://github.com/textualize/textual/)
 
 *Built with ❤️ for the anime community*
+
+---
 
 ## Disclaimer
 
