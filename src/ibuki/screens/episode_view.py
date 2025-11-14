@@ -51,4 +51,22 @@ class EpisodeDetailScreen(Screen):
             return
 
         episode_number = self.episodes[ep_index]
-        self.backend.play_episode(self.anime, episode_number)
+
+        stream = self.backend.get_episode_stream(
+            self.anime,
+            episode_number,
+            self.backend.global_quality
+        )
+
+        if not stream:
+            self.app.notify("[Error] No stream available for this episode :(", severity="error", timeout=3)
+            return
+
+        anime_id = getattr(self.anime, "identifier", str(id(self.anime)))
+        entry = self.backend.watch_history.get_entry(anime_id)
+
+        start_time = 0
+        if entry and entry["episode"] == episode_number:
+            start_time = entry["timestamp"]
+
+        self.backend.play_episode(self.anime, episode_number, stream, start_time)
