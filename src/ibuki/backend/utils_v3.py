@@ -14,7 +14,7 @@ def clean_html(raw: str | None) -> str:
     text = re.sub(r'<.*?>', '', raw).strip()
     return html.unescape(text)
 
-PROGRESS_FILE = Path("./progress.json").expanduser()
+PROGRESS_FILE = Path("~/Project-Ibuki").expanduser()
 
 class WatchHistory:
     def __init__(self, file_path=PROGRESS_FILE):

@@ -1,7 +1,7 @@
 from textual.screen import Screen
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from ..backend.backend_v2 import AnimeBackend
+from ..backend.backend_v3 import AnimeBackend
 from textual.widgets import Static, Footer, Header, Button
 
 class ContinueWatchingScreen(Screen):

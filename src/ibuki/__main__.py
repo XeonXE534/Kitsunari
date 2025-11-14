@@ -1,6 +1,6 @@
 from textual.app import App
 from .screens.home import IbukiHome
-from .backend.stream import AnimeBackend
+from .backend.backend_v3 import AnimeBackend
 
 class Ibuki(App):
     def on_mount(self):

@@ -1,7 +1,7 @@
 from textual.screen import Screen
 from textual.widgets import Input, ListView, ListItem, Static, Footer
 from textual.app import ComposeResult
-from ..backend.stream import AnimeBackend as backend
+from ..backend.backend_v3 import AnimeBackend as backend
 from ..backend.utils_v3 import clean_html
 from .anime_detail import AnimeDetailScreen
 from .episode_view import EpisodeDetailScreen

@@ -1,6 +1,6 @@
 from textual.screen import Screen
 from textual.app import ComposeResult
-from ..backend.stream import AnimeBackend
+from ..backend.backend_v3 import AnimeBackend
 from textual.widgets import ListView, ListItem, Static, Footer
 
 class EpisodeDetailScreen(Screen):
