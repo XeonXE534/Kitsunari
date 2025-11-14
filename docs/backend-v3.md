@@ -1,5 +1,5 @@
-# AnimeBackend v2.5 Documentation
-> This document provides an overview for `AnimeBackend v2.5`
+# AnimeBackend v3 Documentation
+> This document provides an overview for `AnimeBackend v3`
 
 `AnimeBackend` is a synchronous, fast-ish Python middleman/controller(confusing name, ik) for handling anime search, streaming, and playback via `anipy_api` and MPV.
 It manages caching, watch history, and stream quality selection. It is made for TUI frontends.
