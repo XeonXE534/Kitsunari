@@ -145,6 +145,8 @@ class AnimeBackend:
 
     def play_episode(self, anime: Anime, episode: int, stream: ProviderStream, start_time: int = 0):
         url = stream.url
+        referrer = getattr(stream, 'referrer', self.get_referrer_for_url(url))
+        extra_args = [f"--referrer={referrer}"]
         anime_id = getattr(anime, "identifier", str(id(anime)))
         anime_name = getattr(anime, "name", "Unknown")
         self.current_anime = anime
@@ -161,7 +163,7 @@ class AnimeBackend:
                 self.logger.debug(f"Failed to save final progress: {e}")
 
         self.player.on_exit = on_mpv_exit
-        self.player.launch(url, start_time=start_time, extra_args=self.get_referrer_for_url(url))
+        self.player.launch(url, start_time=start_time, extra_args=extra_args)
         self.player.start_progress_tracker(
             lambda elapsed, duration: self.watch_history.update_progress(
                 anime_id, anime_name, episode, elapsed, duration
