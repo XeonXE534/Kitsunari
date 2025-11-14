@@ -1,12 +1,13 @@
 ![Version](https://img.shields.io/badge/version-2.1.1-blue)
-
-![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuk)
+![License](https://img.shields.io/github/XeonXE534/Project-Ibuk/license)
 
 <img align="left" src="images/halo.png" alt="logo" width="450" />
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
 GUI version planned for future release.
+
+
 
 ## Features
 
