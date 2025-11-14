@@ -45,6 +45,7 @@ class MPVPlayer:
                   "--force-window=immediate",
                   "--no-terminal",
                   "--idle=no",
+                  "-fs"
                   "--keep-open=no",
               ] + extra_args
 
@@ -91,7 +92,6 @@ class MPVPlayer:
                         except json.JSONDecodeError:
                             continue
 
-                        # Handle property responses
                         if msg.get("error") == "success" and "data" in msg:
                             request_id = msg.get("request_id", 0)
 
