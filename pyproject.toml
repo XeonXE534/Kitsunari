@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "Project-Ibuki"
 version = "2.1.1"
 description = "Modern Terminal UI for anime streaming"
-authors = [{ name="Xeon", email="XeonXE1@proton.me" }]
+authors = [{ name="XeonXE534", email="XeonXE1@proton.me" }]
 readme = "README.md"
 requires-python = ">=3.10"
 
