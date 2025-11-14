@@ -161,7 +161,7 @@ class AnimeBackend:
                 self.logger.debug(f"Failed to save final progress: {e}")
 
         self.player.on_exit = on_mpv_exit
-        self.player.launch(url, start_time=start_time)
+        self.player.launch(url, start_time=start_time, extra_args=self.get_referrer_for_url(url))
         self.player.start_progress_tracker(
             lambda elapsed, duration: self.watch_history.update_progress(
                 anime_id, anime_name, episode, elapsed, duration

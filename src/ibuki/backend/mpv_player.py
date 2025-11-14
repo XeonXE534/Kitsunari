@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 from ..logs.logger import get_logger
 
+
 # MPVControl v2
 
 class MPVPlayer:
@@ -18,7 +19,7 @@ class MPVPlayer:
         self._progress_thread = None
         self.on_exit = None
         self._recv_buffer = ""
-        self.current_duration = None
+        self._current_duration = None
         self._current_position = None
 
     def _cleanup_socket(self):
@@ -45,34 +46,55 @@ class MPVPlayer:
                   "--force-window=immediate",
                   "--no-terminal",
                   "--idle=no",
-                  "-fs"
                   "--keep-open=no",
               ] + extra_args
 
+        self.logger.info(f"Launching MPV with socket: {self.sock_path}")
         self.process = subprocess.Popen(cmd)
         self.running = True
-        self.current_duration = None
+        self._current_duration = None
         self._current_position = None
+        self._recv_buffer = ""
 
-        for _ in range(50):
+        connected = False
+        for attempt in range(50):
             if Path(self.sock_path).exists():
                 try:
                     self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
                     self.socket.connect(self.sock_path)
                     self.socket.settimeout(0.5)
+                    self.logger.info(f"Connected to MPV socket on attempt {attempt + 1}")
+                    connected = True
                     break
+
                 except Exception as e:
-                    self.logger.error(f"Failed to connect to MPV socket: {e} :/")
+                    self.logger.debug(f"Attempt {attempt + 1} to connect to MPV socket failed: {e} :/")
+                    if self.socket:
+                        try:
+                            self.socket.close()
+                        except:
+                            pass
+                        self.socket = None
                     time.sleep(0.1)
             else:
                 time.sleep(0.1)
 
-        threading.Thread(target=self._listen_ipc, daemon=True).start()
+        if not connected:
+            self.logger.error("Failed to connect to MPV socket after 50 attempts!")
+            self.running = False
+            return
+
+        if self.socket:
+            threading.Thread(target=self._listen_ipc, daemon=True).start()
 
     def _listen_ipc(self):
         """
         Listen for JSON events from MPV with proper buffer handling.
         """
+        if not self.socket:
+            self.logger.error("Cannot start IPC listener - socket is None!")
+            return
+
         try:
             while self.running:
                 try:
@@ -94,12 +116,11 @@ class MPVPlayer:
 
                         if msg.get("error") == "success" and "data" in msg:
                             request_id = msg.get("request_id", 0)
-
                             if request_id == 1:
                                 self._current_position = msg["data"]
 
                             elif request_id == 2:
-                                self.current_duration = msg["data"]
+                                self._current_duration = msg["data"]
 
                         event = msg.get("event")
                         if event == "end-file":
@@ -142,8 +163,8 @@ class MPVPlayer:
             self.send("get_property", ["duration"], request_id=2)
 
             time.sleep(0.1)
-            return self._current_position, self.current_duration
 
+            return self._current_position, self._current_duration
         except Exception as e:
             self.logger.error(f"Failed to get playback state: {e} :/")
             return None, None
@@ -153,6 +174,7 @@ class MPVPlayer:
         callback(elapsed_seconds, total_duration)
         Tracks MPV's actual playback time AND duration.
         """
+
         def _track():
             while self.running:
                 try:
@@ -162,6 +184,7 @@ class MPVPlayer:
                         callback(int(position), int(duration))
 
                     elif position is not None:
+                        # Fallback if duration isn't available yet
                         self.logger.debug("Duration not available yet, using estimated")
                         callback(int(position), int(position) + 300)
 
@@ -185,6 +208,7 @@ class MPVPlayer:
         if self.process:
             try:
                 self.process.terminate()
+
             except Exception as e:
                 self.logger.error(f"Failed to terminate MPV process: {e} :/")
 
