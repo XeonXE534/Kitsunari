@@ -1,6 +1,6 @@
 <p>
   <img src="images/halo.png" alt="logo" width="450" style="vertical-align:middle;">
-  <strong style="font-size:4.5em;">v2.1.1</strong>
+  <span style="font-size:30px;">v2.1.1</span>
 </p>
 
 
