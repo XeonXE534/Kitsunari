@@ -88,5 +88,12 @@ GPL 3.0 – see LICENSE file for details
 - Backend: [Anipy](https://github.com/sdaqo/anipy-cli)
 - UI: [Textual](https://github.com/textualize/textual/)
 
-
 *Built with ❤️ for the anime community*
+
+## Disclaimer
+
+Project-Ibuki is an independent, open-source project and is not affiliated with, endorsed, or sponsored by Nexon Games, Yostar, or Blue Archive.
+The character Ibuki and related assets belong to Nexon Games Co., Ltd.
+All character references are for fan and educational purposes only.
+
+If you are a copyright holder and believe any content used here violates your rights, please open an issue or contact me — I'll remove it immediately.
