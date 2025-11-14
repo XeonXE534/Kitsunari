@@ -6,10 +6,11 @@ import subprocess
 from pathlib import Path
 from ..logs.logger import get_logger
 
-# MPVControl v2
+
+# MPVControl v2 - Now with actual duration tracking that doesn't suck
 
 class MPVPlayer:
-    def __init__(self, sock_path="/tmp/ibuki-mpv.sock"):
+    def __init__(self, sock_path="/tmp/kitsunari-mpv.sock"):
         self.logger = get_logger("MPVControl")
         self.sock_path = sock_path
         self.process = None
@@ -18,16 +19,14 @@ class MPVPlayer:
         self._progress_thread = None
         self.on_exit = None
         self._recv_buffer = ""
-        self.current_duration = None
+        self._current_duration = None
         self._current_position = None
 
     def _cleanup_socket(self):
         try:
             Path(self.sock_path).unlink()
-
         except FileNotFoundError:
             pass
-
         except Exception as e:
             self.logger.error(f"Failed to clean up socket: {e} :(")
 
@@ -45,17 +44,38 @@ class MPVPlayer:
                   "--force-window=immediate",
                   "--no-terminal",
                   "--idle=no",
-                  "-fs"
                   "--keep-open=no",
               ] + extra_args
 
         self.logger.info(f"Launching MPV with socket: {self.sock_path}")
-        self.process = subprocess.Popen(cmd)
+        self.logger.debug(f"MPV command: {' '.join(cmd[:4])}... (truncated)")
+
+        try:
+            self.process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to start MPV process: {e}")
+            return
+
         self.running = True
-        self.current_duration = None
+        self._current_duration = None
         self._current_position = None
         self._recv_buffer = ""
 
+        # Check if process dies immediately
+        time.sleep(0.5)
+        if self.process.poll() is not None:
+            stdout, stderr = self.process.communicate()
+            self.logger.error(f"MPV died immediately! Exit code: {self.process.returncode}")
+            self.logger.error(f"STDOUT: {stdout.decode('utf-8', errors='ignore')}")
+            self.logger.error(f"STDERR: {stderr.decode('utf-8', errors='ignore')}")
+            self.running = False
+            return
+
+        # Wait for socket to be created
         connected = False
         for attempt in range(50):
             if Path(self.sock_path).exists():
@@ -66,9 +86,7 @@ class MPVPlayer:
                     self.logger.info(f"Connected to MPV socket on attempt {attempt + 1}")
                     connected = True
                     break
-
                 except Exception as e:
-                    self.logger.debug(f"Attempt {attempt + 1} to connect to MPV socket failed: {e} :/")
                     if self.socket:
                         try:
                             self.socket.close()
@@ -104,6 +122,7 @@ class MPVPlayer:
 
                     self._recv_buffer += data.decode("utf-8")
 
+                    # Process complete messages
                     while "\n" in self._recv_buffer:
                         line, self._recv_buffer = self._recv_buffer.split("\n", 1)
                         if not line.strip():
@@ -114,14 +133,15 @@ class MPVPlayer:
                         except json.JSONDecodeError:
                             continue
 
+                        # Handle property responses
                         if msg.get("error") == "success" and "data" in msg:
                             request_id = msg.get("request_id", 0)
-                            if request_id == 1:
+                            if request_id == 1:  # time-pos
                                 self._current_position = msg["data"]
+                            elif request_id == 2:  # duration
+                                self._current_duration = msg["data"]
 
-                            elif request_id == 2:
-                                self.current_duration = msg["data"]
-
+                        # Handle events
                         event = msg.get("event")
                         if event == "end-file":
                             self.running = False
@@ -134,7 +154,6 @@ class MPVPlayer:
 
         except Exception as e:
             self.logger.error(f"Error in MPV IPC listener: {e} :/")
-
         finally:
             self.running = False
             self.close()
@@ -149,7 +168,6 @@ class MPVPlayer:
         try:
             payload = json.dumps({"command": [command] + args, "request_id": request_id})
             self.socket.send(payload.encode("utf-8") + b"\n")
-
         except Exception as e:
             self.logger.error(f"Failed to send command to MPV: {e} :/")
 
@@ -162,12 +180,13 @@ class MPVPlayer:
             self.send("get_property", ["time-pos"], request_id=1)
             self.send("get_property", ["duration"], request_id=2)
 
+            # Give it a moment to respond
             time.sleep(0.1)
 
-            return self._current_position, self.current_duration
+            return (self._current_position, self._current_duration)
         except Exception as e:
             self.logger.error(f"Failed to get playback state: {e} :/")
-            return None, None
+            return (None, None)
 
     def start_progress_tracker(self, callback, interval=10):
         """
@@ -182,7 +201,6 @@ class MPVPlayer:
 
                     if position is not None and duration is not None:
                         callback(int(position), int(duration))
-
                     elif position is not None:
                         # Fallback if duration isn't available yet
                         self.logger.debug("Duration not available yet, using estimated")
@@ -208,14 +226,11 @@ class MPVPlayer:
         if self.process:
             try:
                 self.process.terminate()
-
             except Exception as e:
                 self.logger.error(f"Failed to terminate MPV process: {e} :/")
-
         if self.socket:
             try:
                 self.socket.close()
-
             except:
                 pass
         self._cleanup_socket()
