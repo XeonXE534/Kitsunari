@@ -17,7 +17,7 @@ class AnimeBackend:
         self.watch_history = WatchHistory()
         self.player = MPVPlayer()
 
-        self.global_quality: int = 720
+        self.global_quality: int = 1080
         self.current_anime: Optional[Anime] = None
         self.current_episode: Optional[int] = None
         self.current_duration: Optional[int] = None
@@ -156,7 +156,10 @@ class AnimeBackend:
         self.current_episode = episode
 
         referrer = getattr(stream, 'referrer', None) or self.get_referrer_for_url(url)
-        extra_args = [f"--referrer={referrer}"]
+        extra_args = [
+            f"--referrer={referrer}",
+            "-fs"
+        ]
 
         self.logger.info(f"Playing {anime_name} EP{episode} with referrer: {referrer}")
 

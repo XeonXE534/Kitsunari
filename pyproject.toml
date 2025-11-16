@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Project-Ibuki"
-version = "2.1.1"
+version = "3.0.0"
 description = "Modern Terminal UI for anime streaming"
 authors = [{ name="XeonXE534", email="XeonXE1@proton.me" }]
 readme = "README.md"
@@ -18,7 +18,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-asyncio"]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "textual-dev",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

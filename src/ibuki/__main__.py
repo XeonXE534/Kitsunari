@@ -7,8 +7,9 @@ class Ibuki(App):
         backend = AnimeBackend()
         self.push_screen(IbukiHome(backend))
 
+app = Ibuki()
+
 def run():
-    app = Ibuki()
     app.run()
 
 if __name__ == "__main__":

@@ -6,11 +6,10 @@ import subprocess
 from pathlib import Path
 from ..logs.logger import get_logger
 
-
 # MPVControl v2
 
 class MPVPlayer:
-    def __init__(self, sock_path="/tmp/kitsunari-mpv.sock"):
+    def __init__(self, sock_path="/tmp/ibuki-mpv.sock"):
         self.logger = get_logger("MPVControl")
         self.sock_path = sock_path
         self.process = None
@@ -19,7 +18,7 @@ class MPVPlayer:
         self._progress_thread = None
         self.on_exit = None
         self._recv_buffer = ""
-        self._current_duration = None
+        self.current_duration = None
         self._current_position = None
 
     def _cleanup_socket(self):
@@ -61,7 +60,7 @@ class MPVPlayer:
             return
 
         self.running = True
-        self._current_duration = None
+        self.current_duration = None
         self._current_position = None
         self._recv_buffer = ""
 
@@ -125,23 +124,25 @@ class MPVPlayer:
                         line, self._recv_buffer = self._recv_buffer.split("\n", 1)
                         if not line.strip():
                             continue
-
                         try:
                             msg = json.loads(line)
-                        except json.JSONDecodeError:
+
+                        except json.JSONDecodeError as e:
+                            self.logger.warning(f"JSON decode error {e} :/")
                             continue
 
                         if msg.get("error") == "success" and "data" in msg:
                             request_id = msg.get("request_id", 0)
-                            if request_id == 1:  # time-pos
+                            if request_id == 1:
                                 self._current_position = msg["data"]
 
-                            elif request_id == 2:  # duration
-                                self._current_duration = msg["data"]
+                            elif request_id == 2:
+                                self.current_duration = msg["data"]
 
                         event = msg.get("event")
                         if event == "end-file":
                             self.running = False
+
                             if self.on_exit:
                                 self.on_exit()
                             break
@@ -151,6 +152,7 @@ class MPVPlayer:
 
         except Exception as e:
             self.logger.error(f"Error in MPV IPC listener: {e} :/")
+
         finally:
             self.running = False
             self.close()
@@ -179,8 +181,8 @@ class MPVPlayer:
             self.send("get_property", ["duration"], request_id=2)
 
             time.sleep(0.1)
+            return self._current_position, self.current_duration
 
-            return self._current_position, self._current_duration
         except Exception as e:
             self.logger.error(f"Failed to get playback state: {e} :/")
             return None, None
@@ -223,13 +225,13 @@ class MPVPlayer:
         if self.process:
             try:
                 self.process.terminate()
-
             except Exception as e:
                 self.logger.error(f"Failed to terminate MPV process: {e} :/")
+
         if self.socket:
             try:
                 self.socket.close()
-
-            except:
+            except Exception as e:
+                self.logger.error(f"Failed to terminate MPV socket: {e} :/")
                 pass
         self._cleanup_socket()

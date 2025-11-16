@@ -9,7 +9,6 @@ from .episode_view import EpisodeDetailScreen
 class SearchScreen(Screen):
     BINDINGS = [
         ('escape', 'go_back', 'Go Back'),
-        ('e', 'episodes', 'Episodes'),
         ('s', 'synopsis', 'Synopsis')
     ]
     CSS_PATH = '../css/search_styles.css'
@@ -51,11 +50,22 @@ class SearchScreen(Screen):
             list_item.anime = anime
             list_view.append(list_item)
 
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        """Handle when user clicks or presses enter on a list item"""
+        selected_item = event.item
+        anime = getattr(selected_item, 'anime', None)
+
+        if anime is None:
+            print("[Error] Selected item has no anime data attached :(")
+            return
+
+        self.app.push_screen(EpisodeDetailScreen(anime))
+
     def action_synopsis(self):
         list_view = self.query_one('#search_results', ListView)
         selected_index = list_view.index
         if selected_index is None or selected_index < 0:
-            print('[Error] No anime selected.')
+            print('[Error] No anime selected :/')
             return
 
         children = list(list_view.children)
@@ -70,28 +80,7 @@ class SearchScreen(Screen):
         if anime:
             self.app.push_screen(AnimeDetailScreen(anime, synopsis))
         else:
-            print('[Error] Selected item has no anime data attached.')
+            print('[Error] Selected item has no anime data attached :/')
 
     def action_go_back(self):
         self.app.pop_screen()
-
-    def action_episodes(self):
-        list_view = self.query_one('#search_results', ListView)
-        selected_index = list_view.index
-
-        if selected_index is None or selected_index < 0:
-            print("[Error] No anime selected to show episodes for.")
-            return
-
-        children = list(list_view.children)
-        if selected_index >= len(children):
-            print("[Error] Selected index out of range.")
-            return
-
-        selected_item = children[selected_index]
-        anime = getattr(selected_item, 'anime', None)
-        if anime is None:
-            print("[Error] Selected item has no anime data attached.")
-            return
-
-        self.app.push_screen(EpisodeDetailScreen(anime))
