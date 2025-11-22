@@ -37,32 +37,12 @@ class SettingsScreen(Screen):
                     classes="setting-widget"
                 )
 
-                yield Label("Preferred Language", classes="setting-label")
-                yield Select(
-                    options=[
-                        ("Subtitles", "sub"),
-                        ("Dubbed", "dub"),
-                    ],
-                    value=self.settings.get("preferred_language", "sub"),
-                    id="language_select",
-                    classes="setting-widget"
-                )
-
                 yield Label("Player Options", classes="section-header")
                 yield SelectionList[str](
                     Selection("Fullscreen Mode", "fullscreen", self.settings.get("fullscreen", True)),
                     Selection("Auto Resume", "auto_resume", self.settings.get("auto_resume", True)),
                     Selection("Auto Next Episode", "auto_next_episode", self.settings.get("auto_next_episode", False)),
                     id="player_options"
-                )
-
-                yield Label("Player Volume (0-100)", classes="section-header")
-                yield Input(
-                    value=str(self.settings.get("player_volume", 100)),
-                    placeholder="0-100",
-                    id="volume_input",
-                    classes="setting-widget",
-                    type="integer"
                 )
 
                 yield Label("Skip Intro (seconds)", classes="setting-label")
@@ -151,16 +131,11 @@ class SettingsScreen(Screen):
             updates = {}
 
             updates["quality"] = self.query_one("#quality_select", Select).value
-            updates["preferred_language"] = self.query_one("#language_select", Select).value
 
             player_options = self.query_one("#player_options", SelectionList)
             updates["fullscreen"] = "fullscreen" in player_options.selected
             updates["auto_resume"] = "auto_resume" in player_options.selected
             updates["auto_next_episode"] = "auto_next_episode" in player_options.selected
-            updates["notifications_enabled"] = "notifications" in player_options.selected
-
-            volume = int(self.query_one("#volume_input", Input).value or "100")
-            updates["player_volume"] = max(0, min(100, volume))
 
             updates["skip_intro_seconds"] = max(0, int(self.query_one("#skip_intro_input", Input).value or "0"))
             updates["skip_outro_seconds"] = max(0, int(self.query_one("#skip_outro_input", Input).value or "0"))
@@ -178,6 +153,7 @@ class SettingsScreen(Screen):
 
         except ValueError as e:
             self._show_status(f"✗ Invalid number: {e}", "error")
+
         except Exception as e:
             self._show_status(f"✗ Save failed: {e}", "error")
 
@@ -197,7 +173,6 @@ class SettingsScreen(Screen):
     def action_go_back(self) -> None:
         """Go back to previous screen"""
         if self.modified:
-            self._show_status("Unsaved changes :/", "warning")
             self.app.pop_screen()
         else:
             self.app.pop_screen()

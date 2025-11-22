@@ -26,10 +26,8 @@ class AnimeBackend:
         self.settings = settings or AnimeSettings(config_path=Path.home() / "Project-Ibuki" / "config" / "settings.yaml")
         s = self.settings
         self.global_quality = s.get("quality")
-        self.preferred_language = s.get("preferred_language")
         self.auto_resume = s.get("auto_resume")
         self.fullscreen = s.get("fullscreen")
-        self.player_volume = s.get("player_volume")
         self.skip_intro_seconds = s.get("skip_intro_seconds")
         self.skip_outro_seconds = s.get("skip_outro_seconds")
         self.auto_next_episode = s.get("auto_next_episode")
@@ -52,36 +50,6 @@ class AnimeBackend:
 
         else:
             return "https://allanime.day"
-
-    def _choose_stream(self, streams: List[ProviderStream], quality: int) -> Optional[ProviderStream]:
-        """
-        Choose best matching stream:
-        - Exact resolution match first
-        - Otherwise nearest lower resolution
-        - Otherwise highest available
-        """
-        def sort_by_resolution(stream: ProviderStream):
-            return getattr(stream, "resolution", 0)
-
-        streams_sorted = sorted(streams, key=sort_by_resolution, reverse=True)
-
-        for s in streams_sorted:
-            if getattr(s, "resolution", 0) == quality:
-                return s
-
-        lower = []
-        for s in streams_sorted:
-            if getattr(s, "resolution", 0) < quality:
-                lower.append(s)
-
-        if lower:
-            return lower[0]
-
-        if not streams_sorted:
-            self.logger.error("No streams available :/")
-            return None
-
-        return streams_sorted[0]
 
     def get_anime_by_query(self, query):
         """
@@ -114,27 +82,15 @@ class AnimeBackend:
 
         return anime_list
 
-    def get_anime_by_id(self, anime_id):
-        """
-        Retrieve an Anime object by its ID from the cache.
-        """
-        return self.cache.get(anime_id)
-
     def get_episode_stream(self, anime, episode, quality) -> Optional[ProviderStream]:
         """
         Return a single ProviderStream (best matching quality) or None.
         Accepts provider returning either a single ProviderStream or a list.
         """
         try:
-            streams = anime.get_video(episode=episode, lang=LanguageTypeEnum.SUB, preferred_quality=quality)
-            if not streams:
+            stream = anime.get_video(episode=episode, lang=LanguageTypeEnum.SUB, preferred_quality=quality)
+            if not stream:
                 return None
-
-            if isinstance(streams, list):
-                return self._choose_stream(streams, quality)
-
-            else:
-                return streams
 
         except Exception as e:
             self.logger.exception("Error fetching stream: " + str(e) + ":/")
@@ -176,9 +132,6 @@ class AnimeBackend:
         if self.fullscreen:
             extra_args.append("-fs")
         extra_args.append(f"--referrer={referrer}")
-
-        if hasattr(self.player, "set_volume"):
-            self.player.set_volume(self.player_volume)
 
         self.logger.info(f"Playing {anime_name} EP{episode} with referrer: {referrer}, "
                          f"start_time: {start_time}")
@@ -222,42 +175,28 @@ class AnimeBackend:
         entry = self.watch_history.get_entry(anime_id)
 
         if not entry:
-            self.logger.warning(f"No history found for anime_id {anime_id}")
+            self.logger.warning(f"No history found for anime_id {anime_id} :(")
             return False
 
-        anime = self.get_anime_by_id(anime_id) or (self.get_anime_by_query(entry["anime_name"]) or [None])[0]
+        anime = self.cache.get(anime_id) or (self.get_anime_by_query(entry["anime_name"]) or [None])[0]
         if not anime:
-            self.logger.error("Could not find anime to resume")
+            self.logger.error("Could not find anime to resume :/")
             return False
 
-        lang = self.settings.get("preferred_language", "sub").upper()
-        if lang not in ["SUB", "DUB"]:
-            lang = "SUB"
-
-        from anipy_api.provider import LanguageTypeEnum
-        lang_enum = LanguageTypeEnum.SUB if lang == "SUB" else LanguageTypeEnum.DUB
-
+        lang = LanguageTypeEnum.SUB
         try:
-            streams = anime.get_video(
+            stream = anime.get_video(
                 episode=entry["episode"],
-                lang=lang_enum,
+                lang=lang,
                 preferred_quality=quality
             )
+
         except Exception as e:
-            self.logger.exception(f"Error fetching streams for resume: {e}")
+            self.logger.exception(f"Error fetching stream for resume: {e}")
             return False
-
-        if not streams:
-            self.logger.warning("No streams available to resume")
-            return False
-
-        if isinstance(streams, list):
-            stream = self._choose_stream(streams, quality)
-        else:
-            stream = streams
 
         if not stream:
-            self.logger.warning("Could not select a stream to resume")
+            self.logger.warning("No stream available to resume")
             return False
 
         start_time = entry.get("timestamp", 0) + self.skip_intro_seconds

@@ -11,11 +11,9 @@ from ..logs.logger import get_logger
 class AnimeSettings:
     DEFAULT_SETTINGS = {
         "quality": 1080,
-        "preferred_language": "sub",
 
         "auto_resume": True,
         "fullscreen": True,
-        "player_volume": 100,
         "skip_intro_seconds": 0,
         "skip_outro_seconds": 0,
         "auto_next_episode": False,

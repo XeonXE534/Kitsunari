@@ -52,7 +52,7 @@ class IbukiHome(Screen):
             self.app.push_screen(ContinueWatchingScreen(self.backend))
 
         elif button_id == "settings":
-            self.app.push_screen(SearchScreen())
+            self.app.push_screen(SettingsScreen(self.backend))
 
         elif button_id == "quit":
             self.app.exit()
