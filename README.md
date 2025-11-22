@@ -78,6 +78,8 @@ Fork, tweak, and submit PRs, any improvements are welcome.
 
 GPL 3.0 – see LICENSE file for details
 
+---
+
 ## Credits
 - Backend: [Anipy](https://github.com/sdaqo/anipy-cli)
 - UI: [Textual](https://github.com/textualize/textual/)
