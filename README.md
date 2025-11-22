@@ -3,7 +3,7 @@
 ![Version](https://img.shields.io/badge/version-3.1.0-blue)\
 ![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuki)
 
-**Modern Terminal UI for anime streaming**
+**Modern Terminal UI for anime streaming**\
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
 Cross-platform version planned for future release.
 
