@@ -1,6 +1,6 @@
 <img align="left" src="images/halo.png" alt="logo" width="450" />
 
-![Version](https://img.shields.io/badge/version-3.3.1.0-blue)\
+![Version](https://img.shields.io/badge/version-3.1.0-blue)\
 ![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuki)
 
 **Modern Terminal UI for anime streaming**
@@ -33,8 +33,8 @@ After installation, you can run Project-Ibuki anywhere using:
 ## Requirements
 
 * **Python 3.10+**
-* **Anipy-api**
-* **Textual**
+* **Terminal** with True Color support (Kitty is recommended)
+* **PiP packages** (installed via `install.sh`)
 * **MPV**
 
 ---
@@ -60,11 +60,8 @@ After installation, you can run Project-Ibuki anywhere using:
 
 ## Notes
 
-- Some minor bugs may exist (search, playback)
-- Only Linux fully supported 
+- Only Linux fully supported as of 3.x.x releases.
 - MPV must be installed and available in your PATH for playback.
-- This version uses `backend_v3` which is the stable backend.
-- Check out the `test_branch_v3` branch for the unstable beta backend (NOT RECOMMENDED FOR DAILY USE, UNSTABLE)
 ---
 
 ## Contributing
