@@ -1,4 +1,4 @@
-<img src="images/halo.png" alt="logo"/>
+<img align="center" src="images/halo.png" alt="logo"/>
 
 ![Version](https://img.shields.io/badge/version-3.1.0-blue)
 ![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuki)
