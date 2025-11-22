@@ -1,7 +1,9 @@
-<img align="center" src="images/halo.png" alt="logo"/>
-
-![Version](https://img.shields.io/badge/version-3.1.0-blue)
-![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuki)
+<div align="center">
+    <img src="images/halo.png" alt="logo" />
+    <br>
+    <img src="https://img.shields.io/badge/version-3.1.0-blue" />
+    <img src="https://img.shields.io/github/license/XeonXE534/Project-Ibuki" />
+</div>
 
 **Modern Terminal UI for anime streaming**\
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
