@@ -1,11 +1,12 @@
-from textual.screen import Screen
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.containers import Container, Horizontal, ScrollableContainer
+from textual.screen import Screen
 from textual.widgets import Static, Footer, Button, Input, Select, Label, SelectionList
 from textual.widgets.selection_list import Selection
-from textual.binding import Binding
 
 from ..backend.backend_v3 import AnimeBackend
+
 
 class SettingsScreen(Screen):
     BINDINGS = [
@@ -109,7 +110,6 @@ class SettingsScreen(Screen):
                     type="integer"
                 )
 
-            # Action buttons
             with Horizontal(id="settings_actions"):
                 yield Button("Save", id="save_btn", variant="success")
                 yield Button("Reset", id="reset_btn", variant="error")
@@ -198,7 +198,7 @@ class SettingsScreen(Screen):
         """Go back to previous screen"""
         if self.modified:
             self._show_status("Unsaved changes :/", "warning")
-            self.set_timer(1.5, lambda: self.app.pop_screen())
+            self.app.pop_screen()
         else:
             self.app.pop_screen()
 
