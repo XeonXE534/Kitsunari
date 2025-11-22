@@ -57,12 +57,12 @@ class AnimeBackend:
         Returns a list of Anime objects.
         Caches results to avoid redundant searches.
         """
-        self.logger.info("Searching for: " + query + ":]")
+        self.logger.info(f"Searching for: {query} :]")
         try:
             results = self.provider.get_search(query)
 
         except Exception as e:
-            self.logger.exception("Error during search: " + str(e) + ":/")
+            self.logger.exception(f"Error during search: {str(e)} :/")
             return []
 
         if not results:
@@ -89,8 +89,11 @@ class AnimeBackend:
         """
         try:
             stream = anime.get_video(episode=episode, lang=LanguageTypeEnum.SUB, preferred_quality=quality)
+            self.logger.info(f"stream fetched: {stream} :]")
             if not stream:
                 return None
+
+            return stream
 
         except Exception as e:
             self.logger.exception("Error fetching stream: " + str(e) + ":/")
