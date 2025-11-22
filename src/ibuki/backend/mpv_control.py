@@ -4,11 +4,12 @@ import socket
 import threading
 import subprocess
 from pathlib import Path
+
 from ..logs.logger import get_logger
 
 # MPVControl v2
 
-class MPVPlayer:
+class MPVControl:
     def __init__(self, sock_path="/tmp/ibuki-mpv.sock"):
         self.logger = get_logger("MPVControl")
         self.sock_path = sock_path

@@ -1,28 +1,43 @@
-from .mpv_player import MPVPlayer
 from typing import Optional, List
-from anipy_api.anime import Anime
+from pathlib import Path
+
 from .utils_v3 import WatchHistory
+from .settings_control import AnimeSettings
+from .mpv_control import MPVControl
 from ..logs.logger import get_logger
+
+from anipy_api.anime import Anime
 from anipy_api.provider import ProviderStream, LanguageTypeEnum
 from anipy_api.provider.providers.allanime_provider import AllAnimeProvider
 
 # Animebackend v3
 
 class AnimeBackend:
-    def __init__(self):
+    def __init__(self, settings: AnimeSettings = None):
         self.logger = get_logger("AnimeBackend")
         self.provider = AllAnimeProvider()
         self.cache = {}
         self.episodes_cache = {}
         self.watch_history = WatchHistory()
-        self.player = MPVPlayer()
+        self.player = MPVControl()
+        self.current_anime = None
+        self.current_episode = None
 
-        self.global_quality: int = 1080
-        self.current_anime: Optional[Anime] = None
-        self.current_episode: Optional[int] = None
-        self.current_duration: Optional[int] = None
+        self.settings = settings or AnimeSettings(config_path=Path.home() / "Project-Ibuki" / "config" / "settings.yaml")
+        s = self.settings
+        self.global_quality = s.get("quality")
+        self.preferred_language = s.get("preferred_language")
+        self.auto_resume = s.get("auto_resume")
+        self.fullscreen = s.get("fullscreen")
+        self.player_volume = s.get("player_volume")
+        self.skip_intro_seconds = s.get("skip_intro_seconds")
+        self.skip_outro_seconds = s.get("skip_outro_seconds")
+        self.auto_next_episode = s.get("auto_next_episode")
+        self.save_progress_interval = s.get("save_progress_interval")
+        self.minimal_progress_threshold = s.get("minimal_progress_threshold")
+        self.history_limit = s.get("history_limit")
 
-        self.logger.debug("AnimeBackend ready :3")
+        self.logger.debug(f"AnimeBackend ready with settings: {s.get_all()}")
 
     @staticmethod
     def get_referrer_for_url(url: str) -> str:
@@ -146,8 +161,7 @@ class AnimeBackend:
 
     def play_episode(self, anime: Anime, episode: int, stream: ProviderStream, start_time: int = 0):
         """
-        Play a specific episode of an anime using MPVPlayer.
-        Tracks progress and updates watch history on exit.
+        Play a specific episode using MPVPlayer with user-configurable settings.
         """
         url = stream.url
         anime_id = getattr(anime, "identifier", str(id(anime)))
@@ -155,37 +169,60 @@ class AnimeBackend:
         self.current_anime = anime
         self.current_episode = episode
 
+        start_time += self.skip_intro_seconds
         referrer = getattr(stream, 'referrer', None) or self.get_referrer_for_url(url)
-        extra_args = [
-            f"--referrer={referrer}",
-            "-fs"
-        ]
 
-        self.logger.info(f"Playing {anime_name} EP{episode} with referrer: {referrer}")
+        extra_args = []
+        if self.fullscreen:
+            extra_args.append("-fs")
+        extra_args.append(f"--referrer={referrer}")
+
+        if hasattr(self.player, "set_volume"):
+            self.player.set_volume(self.player_volume)
+
+        self.logger.info(f"Playing {anime_name} EP{episode} with referrer: {referrer}, "
+                         f"start_time: {start_time}")
 
         def on_mpv_exit():
-            self.logger.info(f"MPV closed, saving history for {anime_name} EP{episode}")
+            """Called when MPV closes, save watch history"""
+            self.logger.info(f"MPV closed, saving history for {anime_name} EP:{episode} :)")
             try:
                 elapsed = self.player.get_elapsed_time()
                 duration = self.player.current_duration or (elapsed + 300)
                 self.watch_history.update_progress(anime_id, anime_name, episode, elapsed, duration)
 
+                if self.auto_next_episode:
+                    next_ep = episode + 1
+                    episodes = self.get_episodes(anime)
+
+                    if next_ep <= len(episodes):
+                        next_stream = self.get_episode_stream(anime, next_ep, self.global_quality)
+                        if next_stream:
+                            self.logger.info(f"Auto-playing next episode: EP{next_ep} :3")
+                            self.play_episode(anime, next_ep, next_stream)
+
             except Exception as e:
-                self.logger.debug(f"Failed to save final progress: {e}")
+                self.logger.debug(f"Failed to save final progress: {e} :/")
 
         self.player.on_exit = on_mpv_exit
         self.player.launch(url, start_time=start_time, extra_args=extra_args)
+
         self.player.start_progress_tracker(
             lambda elapsed, duration: self.watch_history.update_progress(
                 anime_id, anime_name, episode, elapsed, duration
-            )
+            ),
+            interval=self.save_progress_interval
         )
 
-    def resume_anime(self, anime_id, quality=None):
+    def resume_anime(self, anime_id, quality: int = None):
+        """
+        Resume anime playback from watch history, using user settings.
+        """
         quality = quality or self.global_quality
         entry = self.watch_history.get_entry(anime_id)
+
         if not entry:
-            self.logger.warning(f"No history found for {anime_id}")
+            self.logger.warning(f"No history found for anime_id {anime_id}")
             return False
 
         anime = self.get_anime_by_id(anime_id) or (self.get_anime_by_query(entry["anime_name"]) or [None])[0]
@@ -193,12 +230,38 @@ class AnimeBackend:
             self.logger.error("Could not find anime to resume")
             return False
 
-        stream = self.get_episode_stream(anime, entry["episode"], quality)
-        if not stream:
-            self.logger.warning("No stream found for resume")
+        lang = self.settings.get("preferred_language", "sub").upper()
+        if lang not in ["SUB", "DUB"]:
+            lang = "SUB"
+
+        from anipy_api.provider import LanguageTypeEnum
+        lang_enum = LanguageTypeEnum.SUB if lang == "SUB" else LanguageTypeEnum.DUB
+
+        try:
+            streams = anime.get_video(
+                episode=entry["episode"],
+                lang=lang_enum,
+                preferred_quality=quality
+            )
+        except Exception as e:
+            self.logger.exception(f"Error fetching streams for resume: {e}")
             return False
 
-        self.play_episode(anime, entry["episode"], stream, entry["timestamp"])
+        if not streams:
+            self.logger.warning("No streams available to resume")
+            return False
+
+        if isinstance(streams, list):
+            stream = self._choose_stream(streams, quality)
+        else:
+            stream = streams
+
+        if not stream:
+            self.logger.warning("Could not select a stream to resume")
+            return False
+
+        start_time = entry.get("timestamp", 0) + self.skip_intro_seconds
+        self.play_episode(anime, entry["episode"], stream, start_time=start_time)
         return True
 
     def get_continue_watching_list(self, limit=10):

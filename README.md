@@ -1,11 +1,11 @@
 <img align="left" src="images/halo.png" alt="logo" width="450" />
 
-![Version](https://img.shields.io/badge/version-3.0.0-blue)\
+![Version](https://img.shields.io/badge/version-3.1.0-blue)\
 ![License](https://img.shields.io/github/license/XeonXE534/Project-Ibuki)
 
 **Modern Terminal UI for anime streaming**
 A sleek, interactive TUI application for browsing and watching anime, powered by a custom backend built on `anipy-api` and Textual.
-GUI version planned for future release.
+Cross-platform version planned for future release.
 
 ---
 
@@ -53,22 +53,18 @@ After installation, you can run Project-Ibuki anywhere using:
 * [x] ~~CLI-based anime streaming~~ → **TUI Implementation**
 * [x] Enhanced episode browsing and search
 * [x] Watch history
-* [ ] User preferences
-* [ ] GUI version with Qt/PySide
+* [x] User preferences
 * [ ] Cross-platform distribution
 
 ---
 
 ## Notes
 
-- Some minor bugs may exist (search, playback)  
-- Continue Watching is broken as of v2.x.x
+- Some minor bugs may exist (search, playback)
 - Only Linux fully supported 
 - MPV must be installed and available in your PATH for playback.
-- This version uses `backend_v2.5` which is the stable backend.
+- This version uses `backend_v3` which is the stable backend.
 - Check out the `test_branch` branch for the unstable beta backend (NOT RECOMMENDED FOR DAILY USE, UNSTABLE)
-- Check out the `backend_v3` branch for a (hopefully) faster backend (NOT RECOMMENDED FOR DAILY USE, UNSTABLE AND UNDER DEVELOPMENT)
-
 ---
 
 ## Contributing

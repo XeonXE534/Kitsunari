@@ -1,5 +1,4 @@
 Screen {
-    offset: 0 0.5;
     background: #1e1e2e;
     color: #F9F5A1;
     border: round #F9F5A1;
@@ -10,6 +9,12 @@ Screen {
     offset: 0 1;
     text-style: bold;
     color: #F9F5A1;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a6adc8;
+    offset: 0 3;
 }
 
 .menu {
@@ -31,7 +36,7 @@ Screen {
 .footer-note {
     text-align: center;
     color: #F9F5A1;
-    padding: 1 0;
+    padding: 2 0;
 }
 
 Footer {

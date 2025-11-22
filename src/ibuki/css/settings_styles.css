@@ -1,0 +1,117 @@
+#settings_container {
+    width: 100%;
+    height: 100%;
+    background: #1e1e2e;
+}
+
+
+#settings_scroll {
+    width: 100%;
+    height: 1fr;
+    padding: 1 2;
+    background: #1e1e2e;
+    color: #F9F5A1;
+}
+
+.section-header {
+    width: 100%;
+    margin-top: 1;
+    margin-bottom: 0;
+    color: #F9F5A1;
+}
+
+.setting-label {
+    width: 100%;
+    margin-top: 1;
+    margin-bottom: 0;
+    color: #F9F5A1;
+}
+
+.setting-widget {
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#player_options {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2;
+    background: #1e1e2e;
+    color: #F9F5A1;
+    border: round #F9F5A1;
+}
+
+#settings_actions {
+    dock: bottom;
+    width: 100%;
+    height: auto;
+    padding: 1;
+    background: #1e1e2e;
+    align: center middle;
+}
+
+#settings_actions Button {
+    margin: 0 1;
+    min-width: 15;
+    background: #1e1e2e;
+    color: #F9F5A1;
+    border: round #F9F5A1;
+}
+
+#settings_actions Button:hover {
+    background: #2e2e3e;
+}
+
+#settings_actions Button:focus {
+    border: heavy #F9F5A1;
+}
+
+#status_message {
+    dock: bottom;
+    width: 100%;
+    height: 1;
+    padding: 0 2;
+    background: #1e1e2e;
+    color: #F9F5A1;
+}
+
+#status_message.success {
+    background: #2e3e2e;
+    color: #a6e3a1;
+}
+
+#status_message.error {
+    background: #3e2e2e;
+    color: #f38ba8;
+}
+
+#status_message.warning {
+    background: #3e3a2e;
+    color: #fab387;
+}
+
+#status_message.info {
+    background: #2e2e3e;
+    color: #F9F5A1;
+}
+
+/* Input styling */
+Input {
+    background: #1e1e2e;
+    color: #F9F5A1;
+    border: round #F9F5A1;
+}
+
+Input:focus {
+    border: heavy #F9F5A1;
+}
+
+Select {
+    background: #1e1e2e;
+    color: #F9F5A1;
+    border: round #F9F5A1;
+}
+
+Select:focus {
+    border: heavy #F9F5A1;
+}

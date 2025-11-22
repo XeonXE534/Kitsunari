@@ -6,7 +6,6 @@ from textual.widgets import ListView, ListItem, Static, Footer
 class EpisodeDetailScreen(Screen):
     BINDINGS = [
         ("escape", "go_back", "Go Back"),
-        ("p", "play_selected", "Play Episode"),
     ]
     CSS_PATH = '../css/episode_styles.css'
 
@@ -35,18 +34,11 @@ class EpisodeDetailScreen(Screen):
             item.index = idx
             episode_list.append(item)
 
-    def action_go_back(self):
-        self.app.pop_screen()
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        """Handle when user clicks or presses enter on an episode"""
+        selected_item = event.item
+        ep_index = getattr(selected_item, "index", None)
 
-    def action_play_selected(self) -> None:
-        episode_list = self.query_one("#episode_list", ListView)
-        selected_index = episode_list.index
-
-        if selected_index is None or selected_index < 0:
-            return
-
-        selected = list(episode_list.children)[selected_index]
-        ep_index = getattr(selected, "index", None)
         if ep_index is None:
             return
 
@@ -70,3 +62,6 @@ class EpisodeDetailScreen(Screen):
             start_time = entry["timestamp"]
 
         self.backend.play_episode(self.anime, episode_number, stream, start_time)
+
+    def action_go_back(self):
+        self.app.pop_screen()

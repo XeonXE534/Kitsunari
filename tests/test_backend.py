@@ -3,10 +3,10 @@ from unittest.mock import MagicMock, patch
 from pathlib import Path
 from ibuki.backend.backend_v3 import AnimeBackend
 from ibuki.backend.utils_v3 import WatchHistory, clean_html
-from ibuki.backend.mpv_player import MPVPlayer
+from ibuki.backend.mpv_control import MPVPlayer
 from anipy_api.provider import LanguageTypeEnum
 
-# Unit tests for utils_v3.py, backend_v3.py, and mpv_player.py
+# Unit tests for utils_v3.py, backend_v3.py, and mpv_control.py
 
 
 def test_clean_html_basic():
